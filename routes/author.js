@@ -116,7 +116,7 @@ router.post("/draft", (req, res) => {
       query_parameters = [req.body.articleId];
       break;
     case "publish":
-      query = `UPDATE articles SET status = 'published', published_at = CURRENT_TIMESTAMP WHERE id = ?;`;
+      query = `UPDATE articles SET state = 'published', published_at = CURRENT_TIMESTAMP WHERE id = ?;`;
       query_parameters = [req.body.articleId];
       break;
     default:
@@ -143,7 +143,7 @@ router.post("/draft", (req, res) => {
         case "update":
           return res.redirect(`/author/draft/?id=${req.body.articleId}&message=Draft updated successfully`);
         case "delete":
-          return res.redirect(`/author/draft/?message=Draft deleted successfully`);
+          return res.redirect(`/author/?message=Draft deleted successfully`);
         case "publish":
           return res.redirect(`/author/draft/?id=${req.body.articleId}&message=Draft published successfully`);
           default: 
