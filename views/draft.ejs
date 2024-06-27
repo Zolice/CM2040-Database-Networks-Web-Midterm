@@ -1,0 +1,132 @@
+<!-- {
+  id: 3,
+  author_id: 1,
+  title: 'aklsdjflkajs',
+  content: 'slkdsgjlksfjd;lksjd',
+  state: 'draft',
+  created_at: '2024-06-27 04:33:42',
+  updated_at: '2024-06-27 04:33:42',
+  published_at: null,
+  number_of_reads: 0,
+  number_of_likes: 0
+} -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>CM2040-Database-Network-Web-Midterm</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <%- include('../components/header.ejs') %>
+
+    <!-- Hero -->
+    <div class="hero h-fit bg-base-100 py-16">
+      <div class="hero-content flex-col lg:flex-row">
+        <img
+          src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
+          class="max-w-sm rounded-lg shadow-2xl"
+        />
+        <div>
+          <h1 class="text-5xl font-bold">Author Name</h1>
+          <p class="pt-6">This is the Author's Home Page Hello.</p>
+          <p class="pb-6">This is the Author's Home Page Hello</p>
+          <button class="btn btn-primary">Create new draft</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full flex flex-col items-center py-6 bg-base-200">
+      <div class="container">
+        <!-- <% if (typeof(article) == 'undefined') { %>
+        <form action="draft-create" method="post"
+        <% } else { %>
+        <form action="draft-update" method="post"
+        <% } %> -->
+
+        <div id="errors">
+          <% if (typeof errors != 'undefined') errors.forEach((error) => { %>
+          <p>Error: <%= error.msg %></p>
+          <% }) %> 
+        </div>
+
+        <form action="/author/draft" method="post" class="flex flex-col gap-4">
+          <label for="title">Author ID</label>
+          <!-- <input type="text" id="authorId" name="title" required /> -->
+          <label class="input input-bordered flex items-center gap-2">
+            <input type="text" class="grow" name="authorId"
+            autocomplete="off"
+            placeholder="authorId" <% if (typeof(article) != 'undefined') { %>
+            value="<%= article.author_id %>" <% } %> />
+          </label>
+
+          <label for="title">Article ID</label>
+          <!-- <input type="text" id="authorId" name="title" required /> -->
+          <label class="input input-bordered flex items-center gap-2">
+            <input type="text" class="grow" name="articleId"
+            autocomplete="off"
+            placeholder="articleId" <% if (typeof(article) != 'undefined') { %>
+            value="<%= article.id %>" <% } %> />
+          </label>
+
+          
+          <label for="title">Add a Title</label>
+          <!-- <input type="text" id="authorId" name="title" required /> -->
+          <label class="input input-bordered flex items-center gap-2">
+            <input type="text" class="grow" name="title"
+            autocomplete="off"
+            placeholder="authorId" <% if (typeof(article) != 'undefined') { %>
+            value="<%= article.title %>" <% } %> />
+          </label>
+          <label for="content">Content</label>
+          <!-- <label class="input input-bordered flex items-center gap-2 h-auto">
+            <textarea class="grow" name="content" autocomplete="off" placeholder="content" rows="5"><% if (typeof(article) != 'undefined') { %><%= article.content %><% } %></textarea>
+          </label> -->
+          <div class="flex"><textarea class="textarea textarea-bordered grow text-base" name="content" autocomplete="off" placeholder="content" rows="5"><% if (typeof(article) != 'undefined') { %><%= article.content %><% } %></textarea></div>
+
+          <div class="flex justify-end gap-x-2">
+          <!-- delete button -->
+          <% if (typeof(article) != 'undefined') { %>
+            <button
+            class="btn btn-xs bg-error sm:btn-sm md:btn-md lg:btn-lg"
+            type="submit" 
+            name="action" 
+            value="delete">
+            Delete
+          </button>
+          
+          <button
+            class="btn btn-xs bg-secondary sm:btn-sm md:btn-md lg:btn-lg"
+            type="submit" 
+            name="action" 
+            value="publish">
+            Publish
+          </button>
+          <% } %>
+
+
+
+          <button
+            class="btn btn-xs bg-primary sm:btn-sm md:btn-md lg:btn-lg"
+            type="submit" 
+            name="action" 
+            value="<%= typeof(article) == 'undefined' ? 'create' : 'update' %>">
+            <%= typeof(article) == 'undefined' ? 'Create' : 'Update' %>
+          </button>
+        </div>
+          <!-- <button type="submit">Submit</button> -->
+        </form>
+      </div>
+    </div>
+    <!-- footer -->
+    <%- include('../components/footer.ejs') %>
+
+    <!-- notifications -->
+    <% if(typeof(message) != 'undefined') { %>
+      <%- include('../components/notification.ejs', {message: message}) %>
+    <% } %>
+  </body>
+</html>
