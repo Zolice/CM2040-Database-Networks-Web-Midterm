@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>CM2040-Database-Network-Web-Midterm</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <%- include('../components/header.ejs') %>
+
+    <%- include('../components/title.ejs', { title: "Drafts", description: "Edit your drafts"}) %>
+
+    <div class="w-full flex flex-col items-center py-6 bg-base-200">
+      <div class="container px-4">
+        <div id="errors">
+          <% if (typeof errors != 'undefined') errors.forEach((error) => { %>
+          <p>Error: <%= error.msg %></p>
+          <% }) %> 
+        </div>
+
+        <form action="/author/draft" method="post" class="flex flex-col gap-2">
+          <label for="title">Author ID</label>
+          <label class="input input-bordered flex items-center gap-2">
+            <input type="text" class="grow" name="authorId"
+            autocomplete="off"
+            placeholder="authorId" <% if (typeof(article) != 'undefined') { %>
+            value="<%= article.author_id %>" <% } %> />
+          </label>
+
+          <div style="visibility: collapse;"> 
+            <label for="title">Article ID</label>
+            <label class="input input-bordered flex items-center gap-2">
+              <input type="text" class="grow" name="articleId"
+              autocomplete="off"
+              placeholder="articleId" <% if (typeof(article) != 'undefined') { %>
+              value="<%= article.id %>" <% } %> />
+            </label>
+          </div>
+
+          <label for="title">Add a Title</label>
+          <label class="input input-bordered flex items-center gap-2">
+            <input type="text" class="grow" name="title"
+            autocomplete="off"
+            placeholder="title" <% if (typeof(article) != 'undefined') { %>
+            value="<%= article.title %>" <% } %> />
+          </label>
+          <label for="content">Content</label>
+          <div class="flex">
+            <textarea class="textarea textarea-bordered grow text-base" 
+              name="content" 
+              autocomplete="off" 
+              placeholder="content" 
+              rows="5"><% if (typeof(article) != 'undefined') { %><%= article.content %><% } %></textarea>
+          </div>
+
+          <div class="flex justify-end gap-x-2">
+            <% if (typeof(article) != 'undefined') { %>
+              <button class="btn btn-xs bg-error sm:btn-sm md:btn-md lg:btn-lg"
+                type="submit" 
+                name="action" 
+                value="delete">
+                Delete
+              </button>
+              
+              <button class="btn btn-xs bg-secondary sm:btn-sm md:btn-md lg:btn-lg"
+                type="submit" 
+                name="action" 
+                value="publish">
+                Publish
+              </button>
+            <% } %>
+
+            <button class="btn btn-xs bg-primary sm:btn-sm md:btn-md lg:btn-lg"
+              type="submit" 
+              name="action" 
+              value="<%= typeof(article) == 'undefined' ? 'create' : 'update' %>">
+              <%= typeof(article) == 'undefined' ? 'Create' : 'Update' %>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <%- include('../components/footer.ejs') %>
+
+    <!-- notifications -->
+    <% if(typeof(message) != 'undefined') { %>
+      <%- include('../components/notification.ejs', {message: message}) %>
+    <% } %>
+  </body>
+</html>

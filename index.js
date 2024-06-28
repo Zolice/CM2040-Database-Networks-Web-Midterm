@@ -39,7 +39,6 @@ app.use('/users', usersRoutes);
 const authorRoutes = require('./routes/author');
 app.use('/author', authorRoutes);
 
-
 // Make the web application listen for HTTP requests
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

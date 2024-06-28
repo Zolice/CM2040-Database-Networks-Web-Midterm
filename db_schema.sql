@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Articles (
     published_at DATETIME,
     number_of_reads INTEGER DEFAULT 0,
     number_of_likes INTEGER DEFAULT 0,
-    FOREIGN KEY (author_id) REFERENCES Accounts(id)
+    FOREIGN KEY (author_id) REFERENCES Author(id)
 );
 
 -- Table: ReaderComments
