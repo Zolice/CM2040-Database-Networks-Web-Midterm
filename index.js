@@ -3,10 +3,13 @@
 * This is your main app entry point
 */
 
+// Setup process env
+require('dotenv').config();
+
 // Set up express, bodyparser and EJS
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT ? process.env.PORT : 3000;
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs'); // set the app to use ejs for rendering
@@ -33,9 +36,6 @@ app.get('/', (req, res) => {
 });
 
 // Add all the route handlers in usersRoutes to the app under the path /users
-// const usersRoutes = require('./routes/users');
-// app.use('/users', usersRoutes);
-
 const authorRoutes = require('./routes/author');
 app.use('/author', authorRoutes);
 
@@ -44,6 +44,6 @@ app.use('/reader', readerRoutes);
 
 // Make the web application listen for HTTP requests
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`CM2040-Database-Networks-Web-Midterm app listening on port ${port}`)
 })
 
