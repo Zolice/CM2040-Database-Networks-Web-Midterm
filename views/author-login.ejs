@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/main.css" />
-    <title>CM2040-Database-Network-Web-Midterm</title>
-  </head>
-  <body>
-    <!-- Header -->
-    <%- include('../components/header.ejs') %>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="/main.css" />
+        <title>CM2040-Database-Network-Web-Midterm</title>
+    </head>
+    <body>
+        <!-- Header -->
+        <%- include('../components/header.ejs') %>
 
-    <!-- Hero -->
-    <div class="hero h-fit bg-base-100 py-16">
-      <div class="hero-content flex-col lg:flex-row">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-          class="max-w-sm rounded-lg shadow-2xl"
-        />
-        <div>
-          <h1 class="text-5xl font-bold">Author Name</h1>
-          <p class="pt-6">This is the Author's Home Page Hello.</p>
-          <p class="pb-6">This is the Author's Home Page Hello</p>
-          <button class="btn btn-primary">Create new draft</button>
+        <!-- body -->
+        <div class="hero bg-base-200 min-h-screen">
+            <div class="hero-content flex-col lg:flex-row-reverse gap-x-8 container">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-5xl font-bold">Login now!</h1>
+                    <p class="py-6">
+                        Login to access your author dashboard.
+                    </p>
+                </div>
+                <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                    <form class="card-body" method="POST" action="/auth">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Password</span>
+                            </label>
+                            <input type="password" placeholder="password" name="password" class="input input-bordered" required />
+                        </div>
+                        <div class="form-control mt-6">
+                            <button class="btn btn-primary" type="submit" name="action">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+        <!-- footer -->
+        <%- include('../components/footer.ejs') %>
 
-    <!-- Published Articles -->
-    <div class="w-full flex flex-col items-center py-6 bg-base-200">
-      <div class="container place-content-center flex flex-col gap-y-6">
-            <%- include('../components/author-article.ejs') %>
-            <%- include('../components/author-article.ejs') %>
-
-        <div class="join mx-auto">
-          <button class="join-item btn">«</button>
-          <button class="join-item btn">Page 22</button>
-          <button class="join-item btn">»</button>
-        </div>
-      </div>
-    </div>
-    <!-- footer -->
-    <%- include('../components/footer.ejs') %>
-  </body>
+        <!-- notifications -->
+        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs',{message: message}) %>
+        <% } %>
+    </body>
 </html>

@@ -18,10 +18,9 @@
                     class="max-w-sm rounded-lg shadow-2xl" /> -->
                 <div>
                     <h1 class="text-5xl font-bold">Author Name</h1>
-                    <p class="pt-6">This is the Author's Home Page Hello.</p>
-                    <p class="pb-6">This is the Author's Home Page Hello</p>
+                    <p class="py-6">This is the Author's Home Page.</p>
                     <a href="/author/draft"><button class="btn btn-primary">New draft</button></a>
-					<a href="/author/settings"><button class="btn btn-secondary">Settings</button></a>
+                    <a href="/author/settings"><button class="btn btn-secondary">Settings</button></a>
                 </div>
             </div>
         </div>
@@ -63,8 +62,8 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <%- include('../components/author-draft.ejs') %> <%-
-                        include('../components/author-draft.ejs') %>
+                        <%- include('../components/author-draft.ejs') %> <%- include('../components/author-draft.ejs')
+                        %>
                     </table>
                 </div>
             </div>
@@ -74,7 +73,7 @@
         <%- include('../components/footer.ejs') %>
 
         <!-- notifications -->
-        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs',
-        {message: message}) %> <% } %>
+        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs',{message: message}) %>
+        <% } %>
     </body>
 </html>

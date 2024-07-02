@@ -86,9 +86,10 @@
     <!-- footer -->
     <%- include('../components/footer.ejs') %>
 
+    
+
     <!-- notifications -->
-    <% if(typeof(message) != 'undefined') { %>
-      <%- include('../components/notification.ejs', {message: message}) %>
+    <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs',{message: message}) %>
     <% } %>
   </body>
 </html>

@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS Author (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    blog_name TEXT NOT NULL
+    blog_name TEXT NOT NULL,
+    password TEXT NOT NULL
 );
 
 -- Table: Articles

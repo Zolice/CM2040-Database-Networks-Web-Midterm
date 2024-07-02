@@ -885,6 +885,10 @@ html {
 }
 
 @media (hover:hover) {
+  .link-hover:hover {
+    text-decoration-line: underline;
+  }
+
   .label a:hover {
     --tw-text-opacity: 1;
     color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
@@ -1463,6 +1467,11 @@ html {
   }
 }
 
+.form-control {
+  display: flex;
+  flex-direction: column;
+}
+
 .label {
   display: flex;
   -webkit-user-select: none;
@@ -1590,6 +1599,10 @@ html {
 .link {
   cursor: pointer;
   text-decoration-line: underline;
+}
+
+.link-hover {
+  text-decoration-line: none;
 }
 
 .menu {
@@ -2151,6 +2164,20 @@ details.collapse summary::-webkit-details-marker {
   --tw-scale-x: 1;
   --tw-scale-y: 1;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.label-text {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
+}
+
+.label-text-alt {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
 }
 
 .input input {
@@ -2810,6 +2837,10 @@ details.collapse summary::-webkit-details-marker {
   margin-bottom: 1.5rem;
 }
 
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -2872,6 +2903,10 @@ details.collapse summary::-webkit-details-marker {
 
 .flex-none {
   flex: none;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
 }
 
 .grow {
@@ -2945,6 +2980,11 @@ details.collapse summary::-webkit-details-marker {
 
 .gap-y-2 {
   row-gap: 0.5rem;
+}
+
+.gap-x-8 {
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
 }
 
 .self-center {
@@ -3059,6 +3099,10 @@ details.collapse summary::-webkit-details-marker {
 
 .pt-6 {
   padding-top: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .text-4xl {
@@ -3213,5 +3257,13 @@ details.collapse summary::-webkit-details-marker {
 @media (min-width: 1024px) {
   .lg\:flex-row {
     flex-direction: row;
+  }
+
+  .lg\:flex-row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  .lg\:text-left {
+    text-align: left;
   }
 }

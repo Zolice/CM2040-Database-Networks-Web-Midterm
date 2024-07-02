@@ -4,10 +4,6 @@ const { check, validationResult } = require("express-validator");
 
 // Web Routes
 router.get("/", (req, res) => {
-	// if(req.body.id === undefined) {
-
-	// }
-
 	// get list of published articles
 	const getPublishedArticles = new Promise((resolve, reject) => {
 		global.db.all(

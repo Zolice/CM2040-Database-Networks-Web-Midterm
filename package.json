@@ -1,7 +1,7 @@
 {
   "name": "CM2040-Database-Networks-Web-Midterm",
   "version": "1.0.0",
-  "description": "A template for the mid-term assignment",
+  "description": "Project assigned by SIM GE - UOL for the purpose of CM2040 Database, Networks and the Web",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,14 +12,16 @@
     "clean-db-win": "del database.db",
     "start": "node index.js"
   },
-  "author": "Simon Katan",
+  "author": "Yong Zhen Long",
   "license": "ISC",
   "dependencies": {
     "autoprefixer": "^10.4.19",
+    "bcrypt": "^5.1.1",
     "daisyui": "^4.12.2",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
+    "express-session": "^1.18.0",
     "express-validator": "^7.1.0",
     "postcss": "^8.4.38",
     "sqlite3": "^5.1.2",
