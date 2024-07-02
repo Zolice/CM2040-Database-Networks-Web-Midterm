@@ -2,35 +2,36 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/main.css" />
-    <title>CM2040-Database-Network-Web-Midterm</title>
-  </head>
-  <body>
-	<!-- Header -->
-	<%- include('../components/header.ejs') %>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="/main.css" />
+        <title>CM2040-Database-Network-Web-Midterm</title>
+    </head>
 
-	<!-- Hero -->
-    <div class="hero min-h-screen bg-base-100">
-      <div class="hero-content flex-col lg:flex-row">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-          class="max-w-sm rounded-lg shadow-2xl"
-        />
-        <div>
-          <h1 class="text-5xl font-bold">
-            DNWBlog
-          </h1>
-          <p class="py-6">Project assigned by SIM GE - UOL for the purpose of CM2040 Database Network and The Web</p>
-          <button class="btn btn-primary">View Articles</button>
-		  <button class="btn btn-secondary">Author Login</button>
+    <body>
+        <!-- Header -->
+        <%- include('../components/header.ejs') %>
+
+        <!-- Hero -->
+        <div class="hero min-h-screen bg-base-100">
+            <div class="hero-content flex-col lg:flex-row">
+                <img
+                    src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
+                    class="max-w-sm rounded-lg shadow-2xl" />
+                <div>
+                    <h1 class="text-5xl font-bold">DNWBlog</h1>
+                    <p class="py-6">
+                        Project assigned by SIM GE - UOL for the purpose of CM2040 Database Network
+                        and The Web
+                    </p>
+                    <a href="/reader"><button class="btn btn-primary">View Articles</button></a>
+                    <a href="/author"><button class="btn btn-secondary">Author Login</button></a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-	<!-- footer -->
-	<%- include('../components/footer.ejs') %>
-  </body>
+        <!-- footer -->
+        <%- include('../components/footer.ejs') %>
+    </body>
 </html>

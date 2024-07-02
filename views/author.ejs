@@ -1,45 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/main.css" />
-    <title>CM2040-Database-Network-Web-Midterm</title>
-  </head>
-  <body>
-    <!-- Header -->
-    <%- include('../components/header.ejs') %>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="/main.css" />
+        <title>CM2040-Database-Network-Web-Midterm</title>
+    </head>
+    <body>
+        <!-- Header -->
+        <%- include('../components/header.ejs') %>
 
-    <!-- Hero -->
-    <div class="hero h-fit bg-base-100 py-16">
-      <div class="hero-content flex-col lg:flex-row">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-          class="max-w-sm rounded-lg shadow-2xl"
-        />
-        <div>
-          <h1 class="text-5xl font-bold">Author Name</h1>
-          <p class="pt-6">This is the Author's Home Page Hello.</p>
-          <p class="pb-6">This is the Author's Home Page Hello</p>
-          <button class="btn btn-primary">Create new draft</button>
+        <!-- Hero -->
+        <div class="hero h-fit bg-base-100 py-16">
+            <div class="hero-content flex-col lg:flex-row">
+                <!-- <img
+                    src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
+                    class="max-w-sm rounded-lg shadow-2xl" /> -->
+                <div>
+                    <h1 class="text-5xl font-bold">Author Name</h1>
+                    <p class="pt-6">This is the Author's Home Page Hello.</p>
+                    <p class="pb-6">This is the Author's Home Page Hello</p>
+                    <a href="/author/draft"><button class="btn btn-primary">New draft</button></a>
+					<a href="/author/settings"><button class="btn btn-secondary">Settings</button></a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Published Articles -->
-    <div class="w-full flex flex-col items-center py-6 bg-base-200">
-      <div class="container place-content-center flex flex-col gap-y-6">
-            <%- include('../components/author-article.ejs') %>
-            <%- include('../components/author-article.ejs') %>
-
-        <div class="join mx-auto">
-          <button class="join-item btn">«</button>
-          <button class="join-item btn">Page 22</button>
-          <button class="join-item btn">»</button>
+        <!-- Published Articles -->
+        <div class="w-full flex flex-col items-center py-8 bg-base-200 gap-y-8">
+            <div class="container place-content-center flex flex-col gap-y-8">
+                <h2 class="text-4xl font-bold">Published Articles</h2>
+                <div class="overflow-x-auto">
+                    <table class="table">
+                        <!-- head -->
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Reads</th>
+                                <th>Likes</th>
+                                <th>Created</th>
+                                <th>Published</th>
+                                <th>Last Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <%- include('../components/author-article.ejs') %> <%-
+                        include('../components/author-article.ejs') %>
+                    </table>
+                </div>
+            </div>
+            <div class="container place-content-center flex flex-col gap-y-6">
+                <h2 class="text-4xl font-bold">Published Articles</h2>
+                <div class="overflow-x-auto">
+                    <table class="table">
+                        <!-- head -->
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Created</th>
+                                <th>Published</th>
+                                <th>Last Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <%- include('../components/author-draft.ejs') %> <%-
+                        include('../components/author-draft.ejs') %>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- footer -->
-    <%- include('../components/footer.ejs') %>
-  </body>
+
+        <!-- footer -->
+        <%- include('../components/footer.ejs') %>
+
+        <!-- notifications -->
+        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs',
+        {message: message}) %> <% } %>
+    </body>
 </html>

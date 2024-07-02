@@ -1,7 +1,6 @@
 -- SQLBook: Code
-
 -- This makes sure that foreign_key constraints are observed and that errors will be thrown for violations
-PRAGMA foreign_keys=ON;
+PRAGMA foreign_keys = ON;
 
 BEGIN TRANSACTION;
 
@@ -27,9 +26,9 @@ BEGIN TRANSACTION;
 -- INSERT INTO users ('user_name') VALUES ('Harry Hilbert');
 
 -- -- Give Simon two email addresses and Diane one, but Harry has none
--- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1); 
--- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.com', 1); 
--- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
+-- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1);
+-- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.com', 1);
+-- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2);
 
 -- Table: Accounts
 CREATE TABLE IF NOT EXISTS Author (
@@ -45,13 +44,15 @@ CREATE TABLE IF NOT EXISTS Articles (
     author_id INTEGER,
     title TEXT NOT NULL,
     content TEXT,
-    state TEXT CHECK(state IN ('draft', 'published')),
+    state TEXT CHECK (
+        state IN ('draft', 'published')
+    ),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     published_at DATETIME,
     number_of_reads INTEGER DEFAULT 0,
     number_of_likes INTEGER DEFAULT 0,
-    FOREIGN KEY (author_id) REFERENCES Author(id)
+    FOREIGN KEY (author_id) REFERENCES Author (id)
 );
 
 -- Table: ReaderComments
@@ -61,8 +62,15 @@ CREATE TABLE IF NOT EXISTS ReaderComments (
     commenter_name TEXT,
     comment TEXT NOT NULL,
     comment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (article_id) REFERENCES Articles(id)
+    FOREIGN KEY (article_id) REFERENCES Articles (id)
 );
 
+INSERT INTO
+    Author (name, email, blog_name)
+VALUES (
+        'Author',
+        'author@mail.com',
+        'Author''s Blog'
+    );
 
 COMMIT;

@@ -12,7 +12,7 @@
 
     <%- include('../components/title.ejs', { title: "Drafts", description: "Edit your drafts"}) %>
 
-    <div class="w-full flex flex-col items-center py-6 bg-base-200">
+    <div class="w-full flex flex-col items-center py-8 bg-base-200">
       <div class="container px-4">
         <div id="errors">
           <% if (typeof errors != 'undefined') errors.forEach((error) => { %>
@@ -57,14 +57,14 @@
 
           <div class="flex justify-end gap-x-2">
             <% if (typeof(article) != 'undefined') { %>
-              <button class="btn btn-xs bg-error sm:btn-sm md:btn-md lg:btn-lg"
+              <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
                 type="submit" 
                 name="action" 
                 value="delete">
                 Delete
               </button>
               
-              <button class="btn btn-xs bg-secondary sm:btn-sm md:btn-md lg:btn-lg"
+              <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
                 type="submit" 
                 name="action" 
                 value="publish">
@@ -72,7 +72,7 @@
               </button>
             <% } %>
 
-            <button class="btn btn-xs bg-primary sm:btn-sm md:btn-md lg:btn-lg"
+            <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
               type="submit" 
               name="action" 
               value="<%= typeof(article) == 'undefined' ? 'create' : 'update' %>">

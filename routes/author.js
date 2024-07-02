@@ -4,10 +4,59 @@ const { check, validationResult } = require("express-validator");
 
 // Web Routes
 router.get("/", (req, res) => {
-  res.render("author.ejs");
+  // if(req.body.id === undefined) {
+
+  // }
+
+  // get list of published articles
+  const getPublishedArticles = new Promise((resolve, reject) => {
+    global.db.all(
+      `SELECT * FROM articles WHERE state = 'published' AND author_id = '1';`,
+      (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      }
+    );
+  });
+
+  // then get list of drafts
+  const getDrafts = new Promise((resolve, reject) => {
+    global.db.all(
+      `SELECT * FROM articles WHERE state = 'draft';`,
+      (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      }
+    );
+  });
+
+  // then render
+  Promise.all([getPublishedArticles, getDrafts])
+    .then(([getPublishedArticles, getDrafts]) => {
+      console.log("A", getPublishedArticles);
+      console.log("B", getDrafts);
+      console.log("message ", req.query.message)
+      res.render("author.ejs", {
+        published: getPublishedArticles,
+        draft: getDrafts,
+        message: req.query.message
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.render("error.ejs", { error: err.message });
+    });
+
+  //   res.render("author.ejs");
 });
 
-router.get("/draft", (req, res) => {
+router.get("/draft", (req, res, next) => {
   console.log("/draft called");
 
   console.log(req.query.message);
@@ -17,8 +66,10 @@ router.get("/draft", (req, res) => {
     const query = `SELECT * FROM articles WHERE id = ?`;
     const query_parameters = [req.query.id];
     global.db.get(query, query_parameters, (err, row) => {
+      console.log(err, row);
       if (err) {
-        next(err);
+        console.log(err);
+        next({ message: err.message });
       } else {
         console.log(row);
         if (req.query.message) {
@@ -95,17 +146,17 @@ router.post("/draft", (req, res) => {
   console.log("Valid done");
   console.log(errors);
   if (errors.length > 0) {
-    console.log("returning errors")
-    return res.render("draft.ejs", {errors: errors});
+    console.log("returning errors");
+    return res.render("draft.ejs", { errors: errors });
     //   return res.json(errors);
   }
 
-  let query , query_parameters;
+  let query, query_parameters;
 
-  switch(req.body.action) {
+  switch (req.body.action) {
     case "create":
-      query = `INSERT INTO Articles (author_id, title, content, state) VALUES (?, ?, ?, 'draft');`
-      query_parameters = [req.body.authorId, req.body.title, req.body.content]
+      query = `INSERT INTO Articles (author_id, title, content, state) VALUES (?, ?, ?, 'draft');`;
+      query_parameters = [req.body.authorId, req.body.title, req.body.content];
       break;
     case "update":
       query = `UPDATE articles SET title = ?, content = ? WHERE id = ?;`;
@@ -130,23 +181,29 @@ router.post("/draft", (req, res) => {
   global.db.run(query, query_parameters, function (err) {
     if (err) {
       console.log(err);
-      return res.render("error.ejs", err.message);
+      return res.render("error.ejs", { error: err.message });
     } else {
       console.log(`Draft ${req.body.title} created successfully`);
       // return res.render("draft.ejs", {
       //   message: "Draft created successfully",
       // });
 
-      switch(req.body.action) {
+      switch (req.body.action) {
         case "create":
-          return res.redirect(`/author/draft/?id=${this.lastID}&message=Draft created successfully`);
+          return res.redirect(
+            `/author/draft/?id=${this.lastID}&message=Draft created successfully`
+          );
         case "update":
-          return res.redirect(`/author/draft/?id=${req.body.articleId}&message=Draft updated successfully`);
+          return res.redirect(
+            `/author/draft/?id=${req.body.articleId}&message=Draft updated successfully`
+          );
         case "delete":
           return res.redirect(`/author/?message=Draft deleted successfully`);
         case "publish":
-          return res.redirect(`/author/draft/?id=${req.body.articleId}&message=Draft published successfully`);
-          default: 
+          return res.redirect(
+            `/author/draft/?id=${req.body.articleId}&message=Draft published successfully`
+          );
+        default:
           return res.redirect(`/author/draft/?message=Success`);
       }
 
@@ -155,6 +212,10 @@ router.post("/draft", (req, res) => {
       );
     }
   });
+});
+
+router.get('/settings', (req, res) => {
+  res.render("settings.ejs");
 });
 
 // router.post("/add-user", (req, res, next) => {

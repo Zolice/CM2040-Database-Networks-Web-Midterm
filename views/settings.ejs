@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="/main.css" />
+        <title>CM2040-Database-Network-Web-Midterm</title>
+    </head>
+    <body>
+        <!-- Header -->
+        <%- include('../components/header.ejs') %>
+
+        <!-- Hero -->
+        <%- include('../components/title.ejs', {title: "Settings", description: "Author Name Settings"}) %>
+
+        <div class="w-full flex flex-col items-center py-8 bg-base-200">
+            <div class="container px-4">
+                <form action="/author/settings" method="post" class="flex flex-col gap-2">
+                    <label for="title">Blog Title</label>
+                    <label class="input input-bordered flex items-center gap-2">
+                        <input type="text" class="grow" name="blogTitle" autocomplete="off" placeholder="Blog Title" 
+                        <% if (typeof(article) != 'undefined') { %>
+                            value="<%= author.blog-title %>" 
+                        <% } %> />
+                    </label>
+
+                    <label for="title">Author Name</label>
+                    <label class="input input-bordered flex items-center gap-2">
+                        <input type="text" class="grow" name="authorName" autocomplete="off" placeholder="Author Name" 
+                        <% if (typeof(article) != 'undefined') { %>
+                            value="<%= author.name %>" 
+                        <% } %> />
+                    </label>
+
+                    <div class="flex justify-end gap-x-2">
+                        <button class="btn btn-md bg-error sm:btn-sm md:btn-md"
+                            type="submit" 
+                            name="action" 
+                            value="delete">
+                            Discard Changes
+                        </button>
+            
+                        <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
+                            type="submit" 
+                            name="action" 
+                            value="<%= typeof(article) == 'undefined' ? 'create' : 'update' %>">
+                            Apply
+                        </button>
+                      </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <%- include('../components/footer.ejs') %>
+
+        <!-- notifications -->
+        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs', {message: message}) %>
+        <% } %>
+    </body>
+</html>

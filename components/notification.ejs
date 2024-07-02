@@ -1,10 +1,7 @@
-<div class="toast">
-  <% if(typeof(message) != undefined) if(message != ""){ %>
-  <div class="alert bg-base-300 border-base-300 shadow-xl">
-    <span><%= message %></span>
-  </div>
-  <% } %>
-  <!-- <div class="alert alert-info">
-    <span>New message arrived.</span>
-  </div> -->
+<div class="toast toast-center toast-top">
+    <% if(typeof(message) != undefined) if(message != ""){ %>
+    <div class="alert bg-base-300 border-base-300 shadow-xl">
+        <span><%= message %></span>
+    </div>
+    <% } %>
 </div>
