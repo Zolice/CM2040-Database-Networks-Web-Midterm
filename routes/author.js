@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 
     // get list of published articles
     const getPublishedArticles = new Promise((resolve, reject) => {
-        global.db.all(`SELECT * FROM articles WHERE state = 'draft' AND author_id = '1';`, (err, rows) => {
+        global.db.all(`SELECT * FROM articles WHERE state = 'published' AND author_id = '1';`, (err, rows) => {
             if (err) {
                 reject(err);
             } else {
