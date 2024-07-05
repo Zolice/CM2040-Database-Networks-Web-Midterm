@@ -67,8 +67,9 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <%- include('../components/author-draft.ejs') %> <%- include('../components/author-draft.ejs')
-                        %>
+                        <% if (typeof(drafts) != 'undefined') { drafts.forEach((article) => {%>
+                            <%- include('../components/author-draft.ejs', {article: article}) %>
+                        <% }) } %>
                     </table>
                 </div>
             </div>

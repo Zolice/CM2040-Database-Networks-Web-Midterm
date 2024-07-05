@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
 
     // then get list of drafts
     const getDrafts = new Promise((resolve, reject) => {
-        global.db.get(`SELECT * FROM articles WHERE state = 'draft';`, (err, rows) => {
+        global.db.all(`SELECT * FROM articles WHERE state = 'draft';`, (err, rows) => {
             if (err) {
                 reject(err);
             } else {
@@ -40,12 +40,11 @@ router.get("/", (req, res) => {
     // then render
     Promise.all([getAuthorDetails, getPublishedArticles, getDrafts])
         .then(([getAuthorDetails, getPublishedArticles, getDrafts]) => {
-            // console.log(getAuthorDetails)
-			console.log(getPublishedArticles)
+			console.log(getDrafts)
             res.render("author.ejs", {
                 author: getAuthorDetails,
                 published: getPublishedArticles,
-                draft: getDrafts,
+                drafts: getDrafts,
                 message: req.query.message,
             });
         })
@@ -267,6 +266,24 @@ router.get('/delete', (req, res) => {
 	else {
 		return res.redirect(`/author/?message=Article not found`);
 	}
+})
+
+router.get(`/publish`, (req, res) => {
+    //  get article id
+    if(req.query.id) {
+        const query = `UPDATE articles SET state = 'published', published_at = CURRENT_TIMESTAMP WHERE id =?;`;
+        const query_parameters = [req.query.id];
+        global.db.run(query, query_parameters, function(err) {
+            if(err) {
+                console.log(err);
+                return res.render('error.ejs', { error: err.message });
+            }
+            return res.redirect(`/author/draft/?id=${req.query.id}&message=Article published successfully`);
+        });
+    }
+    else {
+        return res.redirect(`/author/draft/?message=Article not found`);
+    }
 })
 
 module.exports = router;

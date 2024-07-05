@@ -1,12 +1,12 @@
 <tr class="hover w-fit">
     <td>
-        <%= typeof(article) != 'undefined' ? article.title : "b" %>    
+        <%= typeof(article) != 'undefined' ? article.title : "" %>    
     </td>
-    <td><%= typeof(article) != 'undefined' ? article.number_of_reads : "b" %></td>
-    <td><%= typeof(article) != 'undefined' ? article.number_of_likes : "b" %></td>
-    <td><%= typeof(article) != 'undefined' ? article.created_at : "b" %></td>
-    <td><%= typeof(article) != 'undefined' ? article.published_at : "b" %></td>
-    <td><%= typeof(article) != 'undefined' ? article.updated_at : "b" %></td>
+    <td><%= typeof(article) != 'undefined' ? article.number_of_reads : "" %></td>
+    <td><%= typeof(article) != 'undefined' ? article.number_of_likes : "" %></td>
+    <td><%= typeof(article) != 'undefined' ? article.created_at : "" %></td>
+    <td><%= typeof(article) != 'undefined' ? article.published_at : "" %></td>
+    <td><%= typeof(article) != 'undefined' ? article.updated_at : "" %></td>
     <td class="flex gap-x-2">
         <a href="/author/delete?id=<%= typeof(article) != 'undefined' ? article.id : 'b' %>"><button class="btn btn-error btn-sm">Delete</button></a>
         <a href="/author/draft?id=<%= typeof(article) != 'undefined' ? article.id : 'b' %>"><button class="btn btn-secondary btn-sm">Edit</button></a>

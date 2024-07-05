@@ -2751,6 +2751,14 @@ details.collapse summary::-webkit-details-marker {
   overflow-x: auto;
 }
 
+.whitespace-pre {
+  white-space: pre;
+}
+
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
+}
+
 .rounded-box {
   border-radius: var(--rounded-box, 1rem);
 }

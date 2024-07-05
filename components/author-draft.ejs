@@ -1,8 +1,10 @@
 <tr class="hover w-fit">
-    <td>Adipisicing excepteur est non nisi ad minim incididunt in laboris deserunt nulla labore.</td>
-    <td>Purple</td>
-    <td>2019/03/03</td>
-    <td>$58,000</td>
+    <td>
+        <%= typeof(article) != 'undefined' ? article.title : "" %>    
+    </td>
+    <td><%= typeof(article) != 'undefined' ? article.created_at : "" %></td>
+    <td><%= typeof(article) != 'undefined' ? article.published_at : "" %></td>
+    <td><%= typeof(article) != 'undefined' ? article.updated_at : "" %></td>
     <td class="flex gap-x-2">
         <button class="btn btn-error btn-sm">Delete</button>
         <button class="btn btn-secondary btn-sm">Edit</button>

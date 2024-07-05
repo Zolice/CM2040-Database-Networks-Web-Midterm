@@ -20,47 +20,18 @@
             <div class="container flex-col px-4 lg:flex-row">
                 <div>
                     <h1 class="text-5xl font-bold">
-                        Article Title
-                        <div class="badge badge-lg font-normal">Views: XX</div>
-                        <div class="badge badge-lg font-normal">Likes: XX</div>
+                        <%= typeof(article) != 'undefined' ? article.title : "Aarticle Title" %>
+                        <div class="badge badge-lg font-normal">Views: <%= typeof(article) != 'undefined' ? article.number_of_reads : "-1" %></div>
+                        <div class="badge badge-lg font-normal">Likes: <%= typeof(article) != 'undefined' ? article.number_of_likes : "-1" %></div>
                     </h1>
-                    <p class="pt-6">By Author, published on Date</p>
+                    <p class="pt-6">By <%= typeof(author) != 'undefined' ? author.name : "Author" %>, published on <%= typeof(article) != 'undefined' ? article.published_at : "published date" %></p>
                 </div>
             </div>
         </div>
 
         <div class="w-full flex flex-col items-center py-8 bg-base-200 gap-y-8">
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
-                <p>
-                    Mollit excepteur ea voluptate non cillum aliqua fugiat qui consequat nisi fugiat. Quis aliqua
-                    incididunt excepteur nostrud. Duis esse reprehenderit ut nostrud labore voluptate consequat proident
-                    deserunt. Sunt voluptate aute ipsum sunt incididunt do quis culpa tempor sunt. Ullamco reprehenderit
-                    esse aliquip elit.
-                </p>
-                <p>
-                    Sint aliqua magna exercitation consequat id sint ipsum velit anim eu velit ad occaecat ea. Laborum
-                    eu occaecat sunt sint eu tempor aute eiusmod duis irure exercitation quis do. Velit pariatur duis
-                    reprehenderit labore.
-                </p>
-                <p>
-                    Veniam in veniam ipsum irure irure dolor ut. Non anim commodo tempor cillum sint irure commodo ipsum
-                    duis tempor consequat. Pariatur Lorem proident laborum consectetur commodo et anim occaecat. Minim
-                    eu ex deserunt ea anim sunt velit velit amet dolore dolore. Excepteur mollit ut elit elit nostrud
-                    minim dolor magna exercitation do excepteur aliquip cillum in.
-                </p>
-                <p>
-                    Mollit ut est esse eiusmod nostrud amet ut. Elit laborum labore aliqua enim nisi qui mollit culpa
-                    deserunt irure irure cillum culpa. Ad id cillum voluptate consectetur nostrud culpa amet
-                    exercitation tempor anim. Duis voluptate pariatur sint sint reprehenderit labore officia officia
-                    pariatur reprehenderit. Velit cupidatat magna aliqua quis ut adipisicing est nisi minim et minim
-                    amet cillum sint. Veniam dolor enim amet tempor quis commodo id. Dolore ipsum ullamco sunt tempor
-                    nisi occaecat fugiat eu magna amet elit labore.
-                </p>
-                <p>
-                    Mollit dolore occaecat commodo dolore in dolore magna qui deserunt voluptate qui. Exercitation
-                    adipisicing pariatur aliqua quis pariatur officia commodo consectetur aute Lorem do. Ad in fugiat do
-                    consectetur labore exercitation amet est duis nulla. Nulla duis proident exercitation eu et ipsum.
-                </p>
+                <p><%= typeof(article) != 'undefined' ? article.content : "Article content" %></p>
                 <!-- like -->
                 <form action="/reader/article/like" method="get" class="flex flex-row place-content-end">
                     <button class="btn btn-primary">Like this article</button>
