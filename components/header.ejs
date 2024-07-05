@@ -1,6 +1,8 @@
 <div class="navbar bg-base-100">
     <div class="flex-1">
-        <a class="btn btn-ghost text-xl" href="/"><%= typeof(blogTitle) != undefined ? "CM2040-Database-Network-Web-Midterm" : blogTitle %></a>
+        <a class="btn btn-ghost text-xl" href="/">
+            <%= typeof(author) != undefined ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %>
+        </a>
     </div>
     <div class="flex-none">
         <ul class="menu menu-horizontal px-1">

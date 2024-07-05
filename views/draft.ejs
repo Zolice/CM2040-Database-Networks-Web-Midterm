@@ -4,11 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/main.css" />
-    <title>CM2040-Database-Network-Web-Midterm</title>
+    <title><%= typeof(author) != undefined ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %></title>
   </head>
   <body>
     <!-- Header -->
-    <%- include('../components/header.ejs') %>
+    <% if(typeof(author) == "undefined") { %>
+      <%- include('../components/header.ejs') %>
+    <% } else { %>
+      <%- include('../components/header.ejs', {author: author}) %>
+    <% } %> 
 
     <%- include('../components/title.ejs', { title: "Drafts", description: "Edit your drafts"}) %>
 
@@ -57,14 +61,14 @@
 
           <div class="flex justify-end gap-x-2">
             <% if (typeof(article) != 'undefined') { %>
-              <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
+              <button class="btn btn-md bg-error sm:btn-sm md:btn-md"
                 type="submit" 
                 name="action" 
                 value="delete">
                 Delete
               </button>
               
-              <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
+              <button class="btn btn-md bg-secondary sm:btn-sm md:btn-md"
                 type="submit" 
                 name="action" 
                 value="publish">

@@ -4,11 +4,15 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="/main.css" />
-        <title>CM2040-Database-Network-Web-Midterm</title>
+        <title><%= typeof(author) != undefined ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %></title>
     </head>
     <body>
         <!-- Header -->
-        <%- include('../components/header.ejs') %>
+        <% if(typeof(author) == "undefined") { %>
+            <%- include('../components/header.ejs') %>
+        <% } else { %>
+            <%- include('../components/header.ejs', {author: author}) %>
+        <% } %> 
 
         <!-- Hero -->
         <!-- Hero -->
@@ -26,7 +30,7 @@
         </div>
 
         <div class="w-full flex flex-col items-center py-8 bg-base-200 gap-y-8">
-            <div class="container place-content-center flex flex-col gap-y-8">
+            <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <p>
                     Mollit excepteur ea voluptate non cillum aliqua fugiat qui consequat nisi fugiat. Quis aliqua
                     incididunt excepteur nostrud. Duis esse reprehenderit ut nostrud labore voluptate consequat proident
@@ -66,7 +70,7 @@
 
         <!-- comments and like -->
         <div class="w-full flex flex-col items-center py-8 bg-base-100 gap-y-8">
-            <div class="container place-content-center flex flex-col gap-y-8">
+            <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <h3 class="text-3xl">Comments</h3>
                 <div class="flex-col gap-y-2">
                     <%- include("../components/comment.ejs") %> 

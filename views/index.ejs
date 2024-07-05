@@ -6,12 +6,15 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="/main.css" />
-        <title>CM2040-Database-Network-Web-Midterm</title>
+        <title><%= typeof(author) != undefined ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %></title>
     </head>
-
     <body>
         <!-- Header -->
-        <%- include('../components/header.ejs') %>
+        <% if(typeof(author) == "undefined") { %>
+            <%- include('../components/header.ejs') %>
+        <% } else { %>
+            <%- include('../components/header.ejs', {author: author}) %>
+        <% } %> 
 
         <!-- Hero -->
         <div class="hero min-h-screen bg-base-100">
