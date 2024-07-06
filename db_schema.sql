@@ -67,11 +67,12 @@ CREATE TABLE IF NOT EXISTS ReaderComments (
 );
 
 INSERT INTO
-    Author (name, email, blog_name)
+    Author (name, email, blog_name, password)
 VALUES (
         'Author',
         'author@mail.com',
-        'Author''s Blog'
+        'Author''s Blog',
+        '$2a$12$GOzlwQk7AT0TeD0sQjFKwuOABC7dleaYmwwiTI73j/6xMIxQY5Gii'
     );
 
 COMMIT;
