@@ -16,7 +16,7 @@ var bodyParser = require("body-parser");
 
 app.use(
     session({
-        secret: "cat",
+        secret: "CM2040-Database-Networks-Web",
         resave: false,
         saveUninitialized: true,
         cookie: { secure: false }, //https, then secure = true

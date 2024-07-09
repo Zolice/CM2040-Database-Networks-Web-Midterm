@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
 // Web Routes
 router.get("/", (req, res) => {
@@ -40,7 +41,7 @@ router.get("/", (req, res) => {
     // then render
     Promise.all([getAuthorDetails, getPublishedArticles, getDrafts])
         .then(([getAuthorDetails, getPublishedArticles, getDrafts]) => {
-			console.log(getDrafts)
+            console.log(getDrafts)
             res.render("author.ejs", {
                 author: getAuthorDetails,
                 published: getPublishedArticles,
@@ -250,31 +251,99 @@ router.post(
     }
 );
 
+router.post('/settings/password', [
+    check('oldPassword', 'Old Password cannot be empty').notEmpty(),
+    check('newPassword', 'New Password cannot be empty').notEmpty(),
+    check('confirmPassword', 'Confirm Password cannot be empty').notEmpty(),
+    check('confirmPassword', 'Passwords do not match').custom((value, { req }) => value === req.body.newPassword)
+], (req, res) => {
+    // get validation results
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        console.log("error", errors);
+        // get author details
+        return global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
+            if (err) {
+                console.log(err);
+                return res.render("error.ejs", { error: err.message });
+            } else {
+                return res.render("settings.ejs", { passwordErrors: errors.array(), author: row });
+                // return res.render("settings.ejs", { author: row });
+            }
+        });
+    }
+
+    // update author details
+    const query = `SELECT password FROM author WHERE id = 1;`;
+    global.db.get(query, (err, row) => {
+        if (err) {
+            console.log(err);
+            return res.render("error.ejs", { error: err.message });
+        }
+        bcrypt.compare(req.body.oldPassword, row.password, function (err, result) {
+            console.log(result)
+            if (err) {
+                console.log(err);
+                return res.render("error.ejs", { error: err.message });
+            }
+            if (result) {
+                // hash the password first
+                bcrypt.hash(req.body.newPassword, 10, function (err, hash) {
+                    if (err) {
+                        console.log(err);
+                        return res.render("error.ejs", { error: err.message });
+                    }
+                    const query = `UPDATE author SET password = ? WHERE id = 1;`;
+                    const query_parameters = [hash];
+                    return global.db.run(query, query_parameters, function (err) {
+                        if (err) {
+                            console.log(err);
+                            return res.render("error.ejs", { error: err.message });
+                        }
+                        return res.redirect(`/author/settings?message=Password updated successfully`);
+                    });
+                })
+            } else {
+                // get author details
+                return global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
+                    if (err) {
+                        console.log(err);
+                        return res.render("error.ejs", { error: err.message });
+                    } else {
+                        return res.render("settings.ejs", { passwordErrors: [{ msg: 'Old Password is incorrect' }], author: row });
+                    }
+                });
+            }
+        });
+    });
+})
+
 router.get('/delete', (req, res) => {
-	//  get article id
-	if(req.query.id) {
-		const query = `DELETE FROM articles WHERE id = ?;`;
-		const query_parameters = [req.query.id];
-		global.db.run(query, query_parameters, function(err) {
-			if(err) {
-				console.log(err);
-				return res.render('error.ejs', { error: err.message });
-			}
-			return res.redirect(`/author/?message=Article deleted successfully`);
-		});
-	}
-	else {
-		return res.redirect(`/author/?message=Article not found`);
-	}
+    //  get article id
+    if (req.query.id) {
+        const query = `DELETE FROM articles WHERE id = ?;`;
+        const query_parameters = [req.query.id];
+        global.db.run(query, query_parameters, function (err) {
+            if (err) {
+                console.log(err);
+                return res.render('error.ejs', { error: err.message });
+            }
+            return res.redirect(`/author/?message=Article deleted successfully`);
+        });
+    }
+    else {
+        return res.redirect(`/author/?message=Article not found`);
+    }
 })
 
 router.get(`/publish`, (req, res) => {
     //  get article id
-    if(req.query.id) {
+    if (req.query.id) {
         const query = `UPDATE articles SET state = 'published', published_at = CURRENT_TIMESTAMP WHERE id =?;`;
         const query_parameters = [req.query.id];
-        global.db.run(query, query_parameters, function(err) {
-            if(err) {
+        global.db.run(query, query_parameters, function (err) {
+            if (err) {
                 console.log(err);
                 return res.render('error.ejs', { error: err.message });
             }

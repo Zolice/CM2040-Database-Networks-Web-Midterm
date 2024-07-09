@@ -56,7 +56,7 @@
                 </form>
             </div>
             <div class="container flex flex-col gap-y-8 px-4">
-                <form action="/author/settings" method="post" class="flex flex-col gap-2">
+                <form action="/author/settings/password" method="post" class="flex flex-col gap-2">
                     <h2 class="text-4xl font-bold">Change Password</h2>
                     <% if (typeof passwordErrors != 'undefined') passwordErrors.forEach((error) => { %>
                         <p>Error: <%= error.msg %></p>
