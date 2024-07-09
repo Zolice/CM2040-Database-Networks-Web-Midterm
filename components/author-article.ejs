@@ -8,10 +8,10 @@
     <td><%= typeof(article) != 'undefined' ? article.published_at : "" %></td>
     <td><%= typeof(article) != 'undefined' ? article.updated_at : "" %></td>
     <td class="flex gap-x-2">
-        <a href="/author/delete?id=<%= typeof(article) != 'undefined' ? article.id : 'b' %>"><button class="btn btn-error btn-sm">Delete</button></a>
-        <a href="/author/draft?id=<%= typeof(article) != 'undefined' ? article.id : 'b' %>"><button class="btn btn-secondary btn-sm">Edit</button></a>
-        <a href="/reader/article?id=<%= typeof(article) != 'undefined' ? article.id : 'b' %>"><button class="btn btn-secondary btn-sm">Share</button></a>
-        <a href="/reader/article?id=<%= typeof(article) != 'undefined' ? article.id : 'b' %>"><button class="btn btn-primary btn-sm">View</button></a>
+        <a href="/author/delete?id=<%= typeof(article) != 'undefined' ? article.id : '' %>"><button class="btn btn-error btn-sm">Delete</button></a>
+        <a href="/author/draft?id=<%= typeof(article) != 'undefined' ? article.id : '' %>"><button class="btn btn-secondary btn-sm">Edit</button></a>
+        <a href="/reader/article?id=<%= typeof(article) != 'undefined' ? article.id : '' %>"><button class="btn btn-secondary btn-sm">Share</button></a>
+        <a href="/reader/article?id=<%= typeof(article) != 'undefined' ? article.id : '' %>"><button class="btn btn-primary btn-sm">View</button></a>
     </td>
 
     <td></td>

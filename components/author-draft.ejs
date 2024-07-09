@@ -6,9 +6,9 @@
     <td><%= typeof(article) != 'undefined' ? article.published_at : "" %></td>
     <td><%= typeof(article) != 'undefined' ? article.updated_at : "" %></td>
     <td class="flex gap-x-2">
-        <button class="btn btn-error btn-sm">Delete</button>
-        <button class="btn btn-secondary btn-sm">Edit</button>
-        <button class="btn btn-primary btn-sm">Publish</button>
+        <a href="/author/delete?id=<%= typeof(article) != 'undefined' ? article.id : 'b' %>"><button class="btn btn-error btn-sm">Delete</button></a>
+        <a href="/author/draft?id=<%= typeof(article) != 'undefined' ? article.id : 'b' %>"><button class="btn btn-secondary btn-sm">Edit</button></a>
+        <a href="/author/publish?id=<%= typeof(article) != 'undefined' ? article.id : '' %>"><button class="btn btn-primary btn-sm">Publish</button></a>
     </td>
 
     <td></td>

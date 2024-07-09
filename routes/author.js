@@ -121,9 +121,6 @@ router.post("/draft", [check("action", "Action is required").not().isEmpty()], (
     switch (req.body.action) {
         case "create":
             // need authorid, title and content
-            if (!req.body.authorId) {
-                errors.push({ msg: "Author ID is required" });
-            }
             if (!req.body.title) {
                 errors.push({ msg: "Title is required" });
             }
@@ -167,10 +164,10 @@ router.post("/draft", [check("action", "Action is required").not().isEmpty()], (
     switch (req.body.action) {
         case "create":
             query = `INSERT INTO Articles (author_id, title, content, state) VALUES (?, ?, ?, 'draft');`;
-            query_parameters = [req.body.authorId, req.body.title, req.body.content];
+            query_parameters = [1, req.body.title, req.body.content];
             break;
         case "update":
-            query = `UPDATE articles SET title = ?, content = ? WHERE id = ?;`;
+            query = `UPDATE articles SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?;`;
             query_parameters = [req.body.title, req.body.content, req.body.articleId];
             break;
         case "delete":
@@ -347,11 +344,11 @@ router.get(`/publish`, (req, res) => {
                 console.log(err);
                 return res.render('error.ejs', { error: err.message });
             }
-            return res.redirect(`/author/draft/?id=${req.query.id}&message=Article published successfully`);
+            return res.redirect(`/author?message=Article published successfully`);
         });
     }
     else {
-        return res.redirect(`/author/draft/?message=Article not found`);
+        return res.redirect(`/author/?message=Article not found`);
     }
 })
 

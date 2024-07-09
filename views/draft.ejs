@@ -25,14 +25,6 @@
         </div>
 
         <form action="/author/draft" method="post" class="flex flex-col gap-2">
-          <label for="title">Author ID</label>
-          <label class="input input-bordered flex items-center gap-2">
-            <input type="text" class="grow" name="authorId"
-            autocomplete="off"
-            placeholder="authorId" <% if (typeof(article) != 'undefined') { %>
-            value="<%= article.author_id %>" <% } %> />
-          </label>
-
           <div style="visibility: collapse;"> 
             <label for="title">Article ID</label>
             <label class="input input-bordered flex items-center gap-2">
