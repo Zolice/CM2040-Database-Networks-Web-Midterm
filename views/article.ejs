@@ -33,9 +33,8 @@
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <p><%= typeof(article) != 'undefined' ? article.content : "Article content" %></p>
                 <!-- like -->
-                <form action="/reader/article/like" method="get" class="flex flex-row place-content-end">
-                    <button class="btn btn-primary">Like this article</button>
-                </form>
+
+                <a href="/reader/article/like?id=<%= article.id %>" class="flex flex-row place-content-end"><button class="btn btn-primary">Like this article</button></a>
             </div>
         </div>
 
@@ -44,8 +43,10 @@
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <h3 class="text-3xl">Comments</h3>
                 <div class="flex-col gap-y-2">
-                    <%- include("../components/comment.ejs") %> 
-                    <%- include("../components/comment.ejs") %>
+                    <% if(typeof(comments) != 'undefined') { %>
+                        <% comments.forEach((comment) => { %>
+                            <%- include("../components/comment.ejs", {comment: comment}) %> 
+                    <% })} %>
                 </div>
 
                 <!-- comments -->
@@ -61,7 +62,7 @@
                     <label class="input input-bordered flex items-center gap-2">
                         <input type="text" class="grow" name="comment" autocomplete="off" placeholder="comment" />
                     </label>
-                    <div class="flex justify-end gap-x-2"><button class="btn btn-primary">Submit</button></div>
+                    <div class="flex justify-end gap-x-2"><button class="btn btn-primary" name="id" value="<%= article.id %>">Submit</button></div>
                 </form>
             </div>
         </div>

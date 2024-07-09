@@ -72,24 +72,78 @@ router.get("/article", (req, res) => {
         });
     });
 
-    Promise.all([getAuthorDetails, getArticleDetails])
-        .then(([getAuthorDetails, getArticleDetails]) => {
+    // get comments
+    const getComments = new Promise((resolve, reject) => {
+        global.db.all(`SELECT * FROM ReaderComments WHERE article_id =?;`, [req.query.id], (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+
+    Promise.all([getAuthorDetails, getArticleDetails, getComments])
+        .then(([getAuthorDetails, getArticleDetails, getComments]) => {
             // if article is not published
-            if (getArticleDetails.state!== "published") {
+            if (getArticleDetails.state !== "published") {
                 return res.redirect(`/reader?message=This article is not published`);
             }
+            
+            if (req.query.message) {
+                res.render("article.ejs", { author: getAuthorDetails, article: getArticleDetails, comments: getComments, message: req.query.message });
+            }
+            else {
+                res.render("article.ejs", { author: getAuthorDetails, article: getArticleDetails, comments: getComments });
+            }
 
-            console.log(getArticleDetails)
             // add view counter
             global.db.run(`UPDATE articles SET number_of_reads = number_of_reads + 1 WHERE id =?;`, [req.query.id]);
-
-            // render
-            return res.render("article.ejs", { author: getAuthorDetails, article: getArticleDetails });
         })
         .catch((err) => {
             // return res.render("error.ejs", { error: err });
             return res.status(500).json({ error: err.message });
         });
 });
+
+router.get("/article/comment", [
+    check('comment', "Please leave a comment").not().isEmpty(),
+    check('id', "Please enter a valid article id").isInt().not().isEmpty()
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.redirect(`/reader/article?id=${req.query.id}&message=${errors.array()[0].msg}`);
+    }
+
+    // if no name, set name to anonymous
+    if (!req.query.name) {
+        req.query.name = "Anonymous";
+    }
+
+    // add comment
+    global.db.run(`INSERT INTO ReaderComments (article_id, commenter_name, comment) VALUES (?, ?, ?);`, [req.query.id, req.query.name, req.query.comment], (err) => {
+        if (err) {
+            return res.render("error.ejs", { error: err.message })
+        }
+        return res.redirect(`/reader/article?id=${req.query.id}&message=Comment added successfully`);
+    });
+})
+
+router.get("/article/like", [
+    check('id', "Please enter a valid article id").isInt().not().isEmpty()
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('error.ejs', { error: errors.array()[0].msg });
+    }
+
+    // add like
+    global.db.run(`UPDATE articles SET number_of_likes = number_of_likes + 1 WHERE id =?;`, [req.query.id], (err) => {
+        if (err) {
+            return res.render("error.ejs", { error: err.message })
+        }
+        return res.redirect(`/reader/article?id=${req.query.id}&message=Like added successfully`);
+    });
+})
 
 module.exports = router;

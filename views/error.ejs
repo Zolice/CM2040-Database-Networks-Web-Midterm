@@ -7,16 +7,8 @@
     <title><%= typeof(author) != undefined ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %></title>
   </head>
   <body>
-    <!-- Header -->
-    <% if(typeof(author) == "undefined") { %>
-      <%- include('../components/header.ejs') %>
-    <% } else { %>
-      <%- include('../components/header.ejs', {author: author}) %>
-    <% } %> 
 
     <%- include('../components/title.ejs', {title: "Error!", description: error}) %>
     
-    <!-- footer -->
-    <%- include('../components/footer.ejs') %>
   </body>
 </html>
