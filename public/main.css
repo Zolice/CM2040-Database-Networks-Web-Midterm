@@ -2423,6 +2423,18 @@ details.collapse summary::-webkit-details-marker {
   height: fit-content;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }

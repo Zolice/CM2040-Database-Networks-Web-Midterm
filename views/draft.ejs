@@ -44,7 +44,7 @@
           </label>
           <label for="content">Content</label>
           <div class="flex">
-            <textarea class="textarea textarea-bordered grow text-base" 
+            <textarea class="textarea textarea-bordered grow text-base h-96" 
               name="content" 
               autocomplete="off" 
               placeholder="content" 
@@ -53,7 +53,7 @@
 
           <div class="flex justify-between gap-x-2">
             <div class="flex gap-2 items-center">
-              <p class="">By <%= typeof(author) != 'undefined' ? author.name : "Author" %>
+              <p>By <%= typeof(author) != 'undefined' ? author.name : "Author" %>
               <% if(typeof(article) != 'undefined' && article.published_at) {
                 var date = new Date(article.published_at);
                 var options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };

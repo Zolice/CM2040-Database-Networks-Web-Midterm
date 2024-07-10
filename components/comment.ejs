@@ -1,7 +1,15 @@
 <div class="chat chat-start">
     <div class="chat-header">
         <%= typeof(comment) != 'undefined' ? comment.commenter_name : "Commenter" %>
-        <time class="text-xs opacity-50"><%= typeof(comment) != 'undefined' ? comment.comment_date : "Now" %> </time>
+        
+        <% if(typeof(comment) != 'undefined') {
+            var date = new Date(comment.comment_date);
+            var options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+            var formattedDate = date.toLocaleString('en-US', options);
+        } else {
+            var formattedDate = "July 1, 2024 at 3:00 AM";
+        } %>
+        <time class="text-xs opacity-50"><%= formattedDate %></time>
     </div>
     <div class="chat-bubble"><%= typeof(comment) != 'undefined' ? comment.comment : "Good work!" %></div>
 </div>
