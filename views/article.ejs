@@ -31,10 +31,13 @@
 
         <div class="w-full flex flex-col items-center py-8 bg-base-200 gap-y-8">
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
-                <p><%= typeof(article) != 'undefined' ? article.content : "Article content" %></p>
+                <p><%- typeof(article) != 'undefined' ? article.content.replace(/\r\n/g, '<br>') : "Article content" %></p>
                 <!-- like -->
 
-                <a href="/reader/article/like?id=<%= article.id %>" class="flex flex-row place-content-end"><button class="btn btn-primary">Like this article</button></a>
+                <div class="flex flex-row place-content-end gap-2">
+                    <a href="/reader/" class="flex flex-row place-content-end"><button class="btn btn-secondary">Return to articles</button></a>
+                    <a href="/reader/article/like?id=<%= article.id %>"><button class="btn btn-primary">Like this article</button></a>
+                </div>
             </div>
         </div>
 
@@ -42,12 +45,17 @@
         <div class="w-full flex flex-col items-center py-8 bg-base-100 gap-y-8">
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <h3 class="text-3xl">Comments</h3>
-                <div class="flex-col gap-y-2">
-                    <% if(typeof(comments) != 'undefined') { %>
-                        <% comments.forEach((comment) => { %>
-                            <%- include("../components/comment.ejs", {comment: comment}) %> 
-                    <% })} %>
-                </div>
+                <% if (typeof(comments) != 'undefined') { %>
+                    <% if (comments.length == 0) { %>
+                        <p>No comments yet</p>
+                    <% } else { %>
+                        <div class="flex-col gap-y-2">
+                            <% if(typeof(comments) != 'undefined') { %>
+                                <% comments.forEach((comment) => { %>
+                                    <%- include("../components/comment.ejs", {comment: comment}) %> 
+                            <% })} %>
+                        </div>
+                <% } } %>
 
                 <!-- comments -->
                 <form action="/reader/article/comment" method="get" class="flex flex-col gap-2">

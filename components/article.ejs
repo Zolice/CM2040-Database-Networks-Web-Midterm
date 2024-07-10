@@ -1,9 +1,18 @@
-<a href="/reader/article">
-    <div class="card bg-base-100 w-96 shadow-xl">
+<a href="/reader/article?id=<%= typeof(article) != 'undefined' ? article.id : "0" %>">
+    <div class="card bg-base-100 w-96 h-[256px] shadow-xl">
         <div class="card-body">
-            <h2 class="card-title">Article title</h2>
-            <div class="badge badge-md">10th January 2024</div>
-            <p>1 line, ellipsis</p>
+            <h2 class="card-title max-h-16"><%= typeof(article) != 'undefined' ? article.title : "Article Title" %></h2>
+            <div class="badge badge-md">
+                <% if(typeof(article) != 'undefined' && article.published_at) {
+                    var date = new Date(article.published_at);
+                    var options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+                    var formattedDate = date.toLocaleString('en-US', options);
+                } else {
+                    var formattedDate = "10th January 2024";
+                } %>
+                <%= formattedDate %>
+            </div>
+            <p class="truncate"><%= typeof(article) != 'undefined' ? article.content : "Article Content" %></p>
             <div class="card-actions justify-end">
                 <button class="btn btn-primary">View</button>
             </div>

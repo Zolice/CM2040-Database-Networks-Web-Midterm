@@ -27,17 +27,12 @@
         <div class="w-full flex flex-col items-center py-8 bg-base-200 gap-y-8">
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <h2 class="text-4xl font-bold grow">Articles</h2>
-                <!-- <div class="flex flex-space">
-                    <button class="btn btn-md bg-primary sm:btn-sm md:btn-md">Hello!</button>
-                    <div class="dropdown dropdown-bottom dropdown-end">
-                        <div tabindex="0" role="button" class="btn btn-active m-1">Click</div>
-                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                            <li><a>Item 1</a></li>
-                            <li><a>Item 2</a></li>
-                        </ul>
-                    </div>
-                </div> -->
                 <div class="flex flex-wrap gap-4">
+                    <% if(typeof(articles) != 'undefined') { %>
+                        <% articles.forEach((article) => { %>
+                            <%- include('../components/article.ejs', {article: article}) %>
+                    <% })} %>
+
                     <%- include('../components/article.ejs')%>
                     <%- include('../components/article.ejs')%>
                 </div>
