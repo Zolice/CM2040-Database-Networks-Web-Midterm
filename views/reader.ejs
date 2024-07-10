@@ -28,10 +28,14 @@
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <h2 class="text-4xl font-bold grow">Articles</h2>
                 <div class="flex flex-wrap gap-4">
-                    <% if(typeof(articles) != 'undefined') { %>
-                        <% articles.forEach((article) => { %>
-                            <%- include('../components/article.ejs', {article: article}) %>
-                    <% })} %>
+                    <% if (typeof(articles) != 'undefined') { %>
+                        <% if (articles.length == 0) { %>
+                            <p>No articles yet. Check back later!</p>
+                        <% } else { %>
+                            <% articles.forEach((article) => { %>
+                                <%- include('../components/article.ejs', {article: article}) %>
+                        <% })} %>
+                    <% } %>
                 </div>
             </div>
         </div>

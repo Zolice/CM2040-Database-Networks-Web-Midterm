@@ -74,7 +74,7 @@ router.get("/draft", (req, res, next) => {
         const query = `SELECT * FROM articles WHERE id = ?`;
         const query_parameters = [req.query.id];
         global.db.get(query, query_parameters, (err, row) => {
-            console.log(err, row);
+            // console.log(err, row);
             if (err) {
                 next({ message: err.message });
             } else {
@@ -156,6 +156,13 @@ router.post("/draft", [check("action", "Action is required").not().isEmpty()], (
             return res.render("draft.ejs", { errors: errors.array() });
     }
     if (errors.length > 0) {
+        return global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
+            if (err) {
+                res.render("error.ejs", { error: err.message });
+            } else {
+                return res.render("draft.ejs", { author: row, errors: errors });        
+            }
+        });
         return res.render("draft.ejs", { errors: errors });
     }
 
@@ -171,37 +178,71 @@ router.post("/draft", [check("action", "Action is required").not().isEmpty()], (
             query_parameters = [req.body.title, req.body.content, req.body.articleId];
             break;
         case "delete":
-            query = `DELETE FROM articles WHERE id = ?;`;
-            query_parameters = [req.body.articleId];
+            // special case, run the queries etc here
             break;
         case "publish":
             query = `UPDATE articles SET state = 'published', published_at = CURRENT_TIMESTAMP WHERE id = ?;`;
             query_parameters = [req.body.articleId];
             break;
-        default:
-            return res.render("draft.ejs", { errors: errors.array() });
+        // default:
+        //     return global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
+        //         if (err) {
+        //             res.render("error.ejs", { error: err.message });
+        //         } else {
+        //             return res.render("draft.ejs", { author: row, errors: errors.array() });        
+        //         }
+        //     });
     }
 
     // Execute the query
-    global.db.run(query, query_parameters, function (err) {
-        if (err) {
+    if (req.body.action != "delete") {
+        global.db.run(query, query_parameters, function (err) {
+            if (err) {
+                console.log(err);
+                return res.render("error.ejs", { error: err.message });
+            } else {
+                switch (req.body.action) {
+                    case "create":
+                        return res.redirect(`/author/draft/?id=${this.lastID}&message=Draft created successfully`);
+                    case "update":
+                        return res.redirect(`/author/draft/?id=${req.body.articleId}&message=Draft updated successfully`);
+                    case "delete":
+                        return res.redirect(`/author/?message=Draft deleted successfully`);
+                    case "publish":
+                        return res.redirect(`/author/draft/?id=${req.body.articleId}&message=Draft published successfully`);
+                    default:
+                        return res.render("draft.ejs", { errors: errors.array() });
+                }
+            }
+        });
+    }
+    else {
+        // delete comments first
+        const deleteComments = new Promise((resolve, reject) => {
+            global.db.run(`DELETE FROM ReaderComments WHERE article_id = ?;`, [req.body.articleId], (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        })
+
+        Promise.all([deleteComments]).then(() => {
+            global.db.run(`DELETE FROM articles WHERE id = ?;`, [req.body.articleId], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.render("error.ejs", { error: err.message });
+                } else {
+                    return res.redirect(`/author/?message=Draft deleted successfully`);
+                }
+            });
+        })
+        .catch((err) => {
             console.log(err);
             return res.render("error.ejs", { error: err.message });
-        } else {
-            switch (req.body.action) {
-                case "create":
-                    return res.redirect(`/author/draft/?id=${this.lastID}&message=Draft created successfully`);
-                case "update":
-                    return res.redirect(`/author/draft/?id=${req.body.articleId}&message=Draft updated successfully`);
-                case "delete":
-                    return res.redirect(`/author/?message=Draft deleted successfully`);
-                case "publish":
-                    return res.redirect(`/author/draft/?id=${req.body.articleId}&message=Draft published successfully`);
-                default:
-                    return res.render("draft.ejs", { errors: errors.array() });
-            }
-        }
-    });
+        })
+    }
 });
 
 router.get("/settings", (req, res) => {
@@ -243,7 +284,7 @@ router.post(
                 console.log(err);
                 return res.render("error.ejs", { error: err.message });
             }
-            return res.redirect(`/author/settings?message=Settings updated successfully`);
+            return res.redirect(`/author?message=Settings updated successfully`);
         });
     }
 );
@@ -298,7 +339,7 @@ router.post('/settings/password', [
                             console.log(err);
                             return res.render("error.ejs", { error: err.message });
                         }
-                        return res.redirect(`/author/settings?message=Password updated successfully`);
+                        return res.redirect(`/author?message=Password updated successfully`);
                     });
                 })
             } else {
@@ -319,15 +360,41 @@ router.post('/settings/password', [
 router.get('/delete', (req, res) => {
     //  get article id
     if (req.query.id) {
-        const query = `DELETE FROM articles WHERE id = ?;`;
-        const query_parameters = [req.query.id];
-        global.db.run(query, query_parameters, function (err) {
-            if (err) {
-                console.log(err);
-                return res.render('error.ejs', { error: err.message });
-            }
-            return res.redirect(`/author/?message=Article deleted successfully`);
-        });
+        // delete comments first
+        const deleteComments = new Promise((resolve, reject) => {
+            global.db.run(`DELETE FROM ReaderComments WHERE article_id = ?;`, [req.query.id], (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        })
+
+        Promise.all([deleteComments]).then(() => {
+            global.db.run(`DELETE FROM articles WHERE id = ?;`, [req.query.id], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.render("error.ejs", { error: err.message });
+                } else {
+                    return res.redirect(`/author/?message=Draft deleted successfully`);
+                }
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.render("error.ejs", { error: err.message });
+        })
+
+        // const query = `DELETE FROM articles WHERE id = ?;`;
+        // const query_parameters = [req.query.id];
+        // global.db.run(query, query_parameters, function (err) {
+        //     if (err) {
+        //         console.log(err);
+        //         return res.render('error.ejs', { error: err.message });
+        //     }
+        //     return res.redirect(`/author/?message=Article deleted successfully`);
+        // });
     }
     else {
         return res.redirect(`/author/?message=Article not found`);
