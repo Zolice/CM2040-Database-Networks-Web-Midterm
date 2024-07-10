@@ -10,11 +10,13 @@
     "clean-db": "rm database.db #remove the old database",
     "build-db-win": "sqlite3 database.db < db_schema.sql",
     "clean-db-win": "del database.db",
-    "start": "node index.js"
+    "dev": "node index.js",
+    "start": "npx tailwindcss -i ./public/input.css -o ./public/main.css && node index.js"
   },
   "author": "Yong Zhen Long",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "autoprefixer": "^10.4.19",
     "bcrypt": "^5.1.1",
     "daisyui": "^4.12.2",

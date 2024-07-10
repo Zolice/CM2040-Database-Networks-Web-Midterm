@@ -1,7 +1,7 @@
 <a href="/reader/article?id=<%= typeof(article) != 'undefined' ? article.id : "0" %>">
     <div class="card bg-base-100 w-96 h-[256px] shadow-xl">
         <div class="card-body">
-            <h2 class="card-title max-h-16"><%= typeof(article) != 'undefined' ? article.title : "Article Title" %></h2>
+            <h2 class="card-title line-clamp-2"><%= typeof(article) != 'undefined' ? article.title : "Article Title" %></h2>
             <div class="badge badge-md">
                 <% if(typeof(article) != 'undefined' && article.published_at) {
                     var date = new Date(article.published_at);
@@ -12,7 +12,7 @@
                 } %>
                 <%= formattedDate %>
             </div>
-            <p class="truncate"><%= typeof(article) != 'undefined' ? article.content : "Article Content" %></p>
+            <p class="line-clamp-2"><%= typeof(article) != 'undefined' ? article.content : "Article Content" %></p>
             <div class="card-actions justify-end">
                 <button class="btn btn-primary">View</button>
             </div>

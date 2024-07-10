@@ -31,7 +31,7 @@
 
         <div class="w-full flex flex-col items-center py-8 bg-base-200 gap-y-8">
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
-                <p><%- typeof(article) != 'undefined' ? article.content.replace(/\r\n/g, '<br>') : "Article content" %></p>
+                <p><%- typeof(article) != 'undefined' ? article.content.replace(/\r?\n/g, '<br>') : "Article content" %></p>
                 <!-- like -->
 
                 <div class="flex flex-row place-content-end gap-2">
