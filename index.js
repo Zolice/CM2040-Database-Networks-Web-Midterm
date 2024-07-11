@@ -48,7 +48,7 @@ global.db = new sqlite3.Database("./database.db", function (err) {
                     if (err) {
                         console.error(err);
                     } else {
-                        console.log("Password updated.");
+                        console.log("Password updated");
                     }
                 });
             }
