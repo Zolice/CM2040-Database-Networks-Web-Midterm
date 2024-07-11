@@ -29,7 +29,6 @@ app.set("view engine", "ejs"); // set the app to use ejs for rendering
 app.use(express.static(__dirname + "/public")); // set location of static files
 
 // Set up SQLite
-// Items in the global namespace are accessible throught out the node application
 const sqlite3 = require("sqlite3").verbose();
 global.db = new sqlite3.Database("./database.db", function (err) {
     if (err) {
@@ -39,12 +38,11 @@ global.db = new sqlite3.Database("./database.db", function (err) {
         console.log("Database connected");
         global.db.run("PRAGMA foreign_keys=ON"); // tell SQLite to pay attention to foreign key constraints
 
-        // encrypt password
+        // encrypt default password
         bcrypt.hash(process.env.PASSWORD, 10, function (err, hash) {
             if (err) {
                 console.error(err);
-            }
-            else {
+            } else {
                 // Store hash in your password DB.
                 global.db.run(`UPDATE author SET password = ? WHERE id = 1;`, hash, (err) => {
                     if (err) {
@@ -59,48 +57,22 @@ global.db = new sqlite3.Database("./database.db", function (err) {
 });
 
 // Handle requests to the home page
-app.get("/", (req, res) => {
-    // get author details
-    const getAuthorDetails = new Promise((resolve, reject) => {
-        global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(row);
-            }
-        });
-    });
-    // res.render("index.ejs");
-    Promise.all([getAuthorDetails])
-        .then(([authorDetails]) => {
-            res.render("index.ejs", { author: authorDetails });
-        })
-        .catch((err) => {
-            res.render("error.ejs", { error: err.message });
-        });
-});
-
-// Handle requests to author login page
-app.get("/login", (req, res) => {
+app.get("/", (req, res, next) => {
     // get author details
     global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
         if (err) {
-            reject(err);
+            res.render("error.ejs", { error: err.message });
         } else {
-            if (req.query.message) {
-                return res.render("author-login.ejs", { author: row, message: req.query.message });
-            }
-            else return res.render("author-login.ejs", { author: row });
+            res.render("index.ejs", { author: row });
         }
     });
-
-    // res.render("author-login.ejs");
 });
 
 // Add all the route handlers in usersRoutes to the app under the path /users
 const readerRoutes = require("./routes/reader");
 app.use("/reader", readerRoutes);
 
+// Middleware to check if the user is logged in
 const authorRoutes = require("./routes/author");
 app.use(
     "/author",
@@ -116,36 +88,52 @@ app.use(
     authorRoutes
 );
 
-app.post("/auth", async (req, res) => {
-    const pw = req.body.password; //from the client
-
-    const pwRequest = new Promise((resolve, reject) => {
-        global.db.get(`SELECT password FROM author WHERE id = '1';`, (err, row) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(row);
-            }
-        });
+// Handle requests to author login page
+app.get("/login", (req, res, next) => {
+    // get author details
+    global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
+        if (err) {
+            console.error(err);
+            res.render("error.ejs", { error: err.message });
+        } else {
+            // render login page
+            return res.render("author-login.ejs", { author: row, message: req.query.message });
+        }
     });
+});
 
-    Promise.all([pwRequest])
-        .then(([pwRequest]) => {
-            //hash check
-            bcrypt.compare(pw, pwRequest.password, function (err, result) {
+app.post("/auth", (req, res, next) => {
+    // get password from db
+    global.db.get(`SELECT password FROM author WHERE id = '1';`, (err, row) => {
+        if (err) {
+            console.error(err);
+            res.render("error.ejs", { error: err.message });
+        } else {
+            // compare password
+            bcrypt.compare(req.body.password, row.password, function (err, result) {
                 if (result) {
+                    // set user to logged in
                     req.session.loggedin = true;
                     res.redirect("/author");
                 } else {
                     res.redirect("/login?message=Wrong password");
                 }
             });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.render("error.ejs", { error: err.message });
-            1;
-        });
+        }
+    });
+});
+
+app.get("/error", (req, res, next) => {
+    res.render("error.ejs", { error: req.query.error });
+})
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    // Log the error stack for debugging
+    console.error(err.stack);
+
+    // render the error page
+    res.status(500).render("error.ejs", { error: err.message })
 });
 
 // Make the web application listen for HTTP requests

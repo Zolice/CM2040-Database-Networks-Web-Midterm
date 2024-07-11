@@ -23,9 +23,9 @@
                     <h2 class="text-4xl font-bold">Author Settings</h2>
                     <div id="errors">
                         <% if (typeof updateErrors != 'undefined') updateErrors.forEach((error) => { %>
-                        <p>Error: <%= error.msg %></p>
+                            <p>Error: <%= error.msg %></p>
                         <% }) %> 
-                      </div>
+                    </div>
                     <label for="title">Blog Title</label>
                     <label class="input input-bordered flex items-center gap-2">
                         <input type="text" class="grow" name="blogTitle" autocomplete="off" placeholder="Blog Title" 
@@ -48,12 +48,11 @@
                                 Discard Changes
                             </button>
                         </a>
-            
                         <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
                             type="submit">
                             Apply
                         </button>
-                      </div>
+                    </div>
                 </form>
             </div>
             <div class="container flex flex-col gap-y-8 px-4">
@@ -62,7 +61,6 @@
                     <% if (typeof passwordErrors != 'undefined') passwordErrors.forEach((error) => { %>
                         <p>Error: <%= error.msg %></p>
                     <% }) %> 
-                        
                     <label for="title">Old Password</label>
                     <label class="input input-bordered flex items-center gap-2">
                         <input type="password" class="grow" name="oldPassword" autocomplete="off" placeholder="Old Password" />
@@ -84,21 +82,21 @@
                                 Discard Changes
                             </button>
                         </a>
-            
                         <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
                             type="submit">
                             Apply
                         </button>
-                      </div>
+                    </div>
                 </form>
             </div>
         </div>
 
-        <!-- footer -->
+        <!-- Footer -->
         <%- include('../components/footer.ejs') %>
 
-        <!-- notifications -->
-        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs', {message: message}) %>
+        <!-- Notifications -->
+        <% if(typeof(message) != 'undefined') { %> 
+            <%- include('../components/notification.ejs', {message: message}) %>
         <% } %>
     </body>
 </html>

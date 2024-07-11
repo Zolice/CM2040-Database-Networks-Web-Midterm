@@ -2484,6 +2484,10 @@ details.collapse summary::-webkit-details-marker {
   place-content: end;
 }
 
+.content-between {
+  align-content: space-between;
+}
+
 .items-center {
   align-items: center;
 }

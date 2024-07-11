@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/main.css" />
-    <title><%= typeof(author) != undefined ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %></title>
-  </head>
-  <body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="/main.css" />
+        <title><%= typeof(author) != 'undefined' ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %></title>
+    </head>
+    <body>
+        <%- include('../components/title.ejs', {title: "Error!", description: error}) %>
 
-    <%- include('../components/title.ejs', {title: "Error!", description: error}) %>
-    
-  </body>
+        <div class="w-full flex flex-col items-center py-8 bg-base-200">
+            <div class="container px-4 flex justify-between">
+                <p>Please report this error to the administrator.</p>
+                <a href="/">
+                    <button type="button" class="btn btn-md bg-primary sm:btn-sm md:btn-md">
+                        Return to homepage
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <%- include('../components/footer.ejs') %>
+    </body>
 </html>

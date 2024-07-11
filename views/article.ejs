@@ -12,15 +12,14 @@
             <%- include('../components/header.ejs') %>
         <% } else { %>
             <%- include('../components/header.ejs', {author: author}) %>
-        <% } %> 
+        <% } %>
 
-        <!-- Hero -->
-        <!-- Hero -->
+        <!-- Hero Section -->
         <div class="hero h-fit bg-base-100 py-16">
             <div class="container flex-col px-4 lg:flex-row">
                 <div>
                     <h1 class="text-5xl font-bold">
-                        <%= typeof(article) != 'undefined' ? article.title : "Aarticle Title" %>
+                        <%= typeof(article) != 'undefined' ? article.title : "Article Title" %>
                         <div class="badge badge-lg font-normal">Views: <%= typeof(article) != 'undefined' ? article.number_of_reads : "-1" %></div>
                         <div class="badge badge-lg font-normal">Likes: <%= typeof(article) != 'undefined' ? article.number_of_likes : "-1" %></div>
                     </h1>
@@ -29,11 +28,11 @@
             </div>
         </div>
 
+        <!-- Article Content -->
         <div class="w-full flex flex-col items-center py-8 bg-base-200 gap-y-8">
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <p><%- typeof(article) != 'undefined' ? article.content.replace(/\r?\n/g, '<br>') : "Article content" %></p>
-                <!-- like -->
-
+                <!-- Like and Return Buttons -->
                 <div class="flex flex-row place-content-end gap-2">
                     <a href="/reader/" class="flex flex-row place-content-end"><button class="btn btn-secondary">Return to articles</button></a>
                     <a href="/reader/article/like?id=<%= article.id %>"><button class="btn btn-primary">Like this article</button></a>
@@ -41,7 +40,7 @@
             </div>
         </div>
 
-        <!-- comments and like -->
+        <!-- Comments Section -->
         <div class="w-full flex flex-col items-center py-8 bg-base-100 gap-y-8">
             <div class="container place-content-center flex flex-col gap-y-8 px-4">
                 <h3 class="text-3xl">Comments</h3>
@@ -50,22 +49,20 @@
                         <p>No comments yet</p>
                     <% } else { %>
                         <div class="flex-col gap-y-2">
-                            <% if(typeof(comments) != 'undefined') { %>
-                                <% comments.forEach((comment) => { %>
-                                    <%- include("../components/comment.ejs", {comment: comment}) %> 
-                            <% })} %>
+                            <% comments.forEach((comment) => { %>
+                                <%- include("../components/comment.ejs", {comment: comment}) %> 
+                            <% }) %>
                         </div>
-                <% } } %>
+                    <% } %>
+                <% } %>
 
-                <!-- comments -->
+                <!-- Add Comment Form -->
                 <form action="/reader/article/comment" method="get" class="flex flex-col gap-2">
                     <h4 class="text-xl">Add a comment</h4>
-                    <!-- name -->
                     <label for="name">Name</label>
                     <label class="input input-bordered flex items-center gap-2">
                         <input type="text" class="grow" name="name" autocomplete="off" placeholder="Name" />
                     </label>
-
                     <label for="comment">Comment</label>
                     <label class="input input-bordered flex items-center gap-2">
                         <input type="text" class="grow" name="comment" autocomplete="off" placeholder="comment" />
@@ -75,11 +72,12 @@
             </div>
         </div>
 
-        <!-- footer -->
+        <!-- Footer -->
         <%- include('../components/footer.ejs') %>
 
-        <!-- notifications -->
-        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs', {message: message}) %>
+        <!-- Notifications -->
+        <% if(typeof(message) != 'undefined') { %> 
+            <%- include('../components/notification.ejs', {message: message}) %>
         <% } %>
     </body>
 </html>

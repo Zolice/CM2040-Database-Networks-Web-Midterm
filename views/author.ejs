@@ -12,14 +12,11 @@
             <%- include('../components/header.ejs') %>
         <% } else { %>
             <%- include('../components/header.ejs', {author: author}) %>
-        <% } %> 
+        <% } %>
 
-        <!-- Hero -->
+        <!-- Hero Section -->
         <div class="hero h-fit bg-base-100 py-16">
             <div class="hero-content flex-col lg:flex-row">
-                <!-- <img
-                    src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-                    class="max-w-sm rounded-lg shadow-2xl" /> -->
                 <div>
                     <h1 class="text-5xl font-bold"><%= typeof(author) == "undefined" ? "Author" : author.name %></h1>
                     <p class="py-6">This is the Author's Home Page.</p>
@@ -35,7 +32,7 @@
                 <h2 class="text-4xl font-bold">Published Articles</h2>
                 <div class="overflow-x-auto">
                     <table class="table">
-                        <!-- head -->
+                        <!-- Table Head -->
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -47,17 +44,19 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <% if (typeof(published) != 'undefined') { published.forEach((article) => {%>
+                        <% if (typeof(published) != 'undefined') { published.forEach((article) => { %>
                             <%- include('../components/author-article.ejs', {article: article}) %>
                         <% }) } %>
                     </table>
                 </div>
             </div>
+
+            <!-- Draft Articles -->
             <div class="container place-content-center flex flex-col gap-y-6 px-4">
                 <h2 class="text-4xl font-bold">Draft Articles</h2>
                 <div class="overflow-x-auto">
                     <table class="table">
-                        <!-- head -->
+                        <!-- Table Head -->
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -67,7 +66,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <% if (typeof(drafts) != 'undefined') { drafts.forEach((article) => {%>
+                        <% if (typeof(drafts) != 'undefined') { drafts.forEach((article) => { %>
                             <%- include('../components/author-draft.ejs', {article: article}) %>
                         <% }) } %>
                     </table>
@@ -75,11 +74,12 @@
             </div>
         </div>
 
-        <!-- footer -->
+        <!-- Footer -->
         <%- include('../components/footer.ejs') %>
 
-        <!-- notifications -->
-        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs',{message: message}) %>
+        <!-- Notifications -->
+        <% if(typeof(message) != 'undefined') { %> 
+            <%- include('../components/notification.ejs', {message: message}) %>
         <% } %>
     </body>
 </html>

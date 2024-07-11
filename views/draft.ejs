@@ -1,114 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/main.css" />
-    <title><%= typeof(author) != undefined ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %></title>
-  </head>
-  <body>
-    <!-- Header -->
-    <% if(typeof(author) == "undefined") { %>
-      <%- include('../components/header.ejs') %>
-    <% } else { %>
-      <%- include('../components/header.ejs', {author: author}) %>
-    <% } %> 
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="/main.css" />
+        <title><%= typeof(author) != undefined ? author.blog_name : "CM2040-Database-Network-Web-Midterm" %></title>
+    </head>
+    <body>
+        <!-- Header -->
+        <% if(typeof(author) == "undefined") { %>
+            <%- include('../components/header.ejs') %>
+        <% } else { %>
+            <%- include('../components/header.ejs', {author: author}) %>
+        <% } %> 
 
-    <%- include('../components/title.ejs', { title: "Drafts", description: "Edit your drafts"}) %>
+        <%- include('../components/title.ejs', { title: "Drafts", description: "Edit your drafts"}) %>
 
-    <div class="w-full flex flex-col items-center py-8 bg-base-200">
-      <div class="container px-4">
-        <div id="errors">
-          <% if (typeof errors != 'undefined') errors.forEach((error) => { %>
-          <p>Error: <%= error.msg %></p>
-          <% }) %> 
+        <div class="w-full flex flex-col items-center py-8 bg-base-200">
+            <div class="container px-4">
+                <div id="errors">
+                    <% if (typeof errors != 'undefined') errors.forEach((error) => { %>
+                        <p>Error: <%= error.msg %></p>
+                    <% }) %> 
+                </div>
+
+                <form action="/author/draft" method="post" class="flex flex-col gap-2">
+                    <div style="visibility: collapse;"> 
+                        <label for="title">Article ID</label>
+                        <label class="input input-bordered flex items-center gap-2">
+                            <input type="text" class="grow" name="articleId"
+                            autocomplete="off"
+                            placeholder="articleId" <% if (typeof(article) != 'undefined') { %>
+                            value="<%= article.id %>" <% } %> />
+                        </label>
+                    </div>
+
+                    <label for="title">Add a Title</label>
+                    <label class="input input-bordered flex items-center gap-2">
+                        <input type="text" class="grow" name="title"
+                        autocomplete="off"
+                        placeholder="title" <% if (typeof(article) != 'undefined') { %>
+                        value="<%= article.title %>" <% } %> />
+                    </label>
+                    <label for="content">Content</label>
+                    <div class="flex">
+                        <textarea class="textarea textarea-bordered grow text-base h-96" 
+                        name="content" 
+                        autocomplete="off" 
+                        placeholder="content" 
+                        rows="5"><% if (typeof(article) != 'undefined') { %><%= article.content %><% } %></textarea>
+                    </div>
+
+                    <div class="flex justify-between gap-x-2">
+                        <div class="flex gap-2 items-center">
+                            <p>By <%= typeof(author) != 'undefined' ? author.name : "Author" %>
+                            <% if(typeof(article) != 'undefined' && article.published_at) {
+                                var date = new Date(article.published_at);
+                                var options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+                                var formattedDate = date.toLocaleString('en-US', options); 
+                            %>
+                            published on <%= typeof(article) != 'undefined' ? formattedDate : "published date" %>
+                            <% } %>
+                            </p>
+                        </div>
+                        <div class="flex gap-2 items-center">
+                            <% if (typeof(article) != 'undefined') { %>
+                                <% if(article.published_at) { %>
+                                    <div class="badge badge-lg font-normal">Views: <%= typeof(article) != 'undefined' ? article.number_of_reads : "-1" %></div>
+                                    <div class="badge badge-lg font-normal">Likes: <%= typeof(article) != 'undefined' ? article.number_of_likes : "-1" %></div>
+                                <% } %>
+                                <a href="/author">
+                                    <button type="button" class="btn btn-md bg-error sm:btn-sm md:btn-md">
+                                        Discard Changes
+                                    </button>
+                                </a>
+                                <button class="btn btn-md bg-error sm:btn-sm md:btn-md"
+                                type="submit" 
+                                name="action" 
+                                value="delete">
+                                Delete
+                                </button>
+
+                                <button class="btn btn-md bg-secondary sm:btn-sm md:btn-md"
+                                type="submit" 
+                                name="action" 
+                                value="publish">
+                                Publish
+                                </button>
+                            <% } %>
+
+                            <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
+                            type="submit" 
+                            name="action" 
+                            value="<%= typeof(article) == 'undefined' ? 'create' : 'update' %>">
+                            <%= typeof(article) == 'undefined' ? 'Create' : 'Update' %>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <form action="/author/draft" method="post" class="flex flex-col gap-2">
-          <div style="visibility: collapse;"> 
-            <label for="title">Article ID</label>
-            <label class="input input-bordered flex items-center gap-2">
-              <input type="text" class="grow" name="articleId"
-              autocomplete="off"
-              placeholder="articleId" <% if (typeof(article) != 'undefined') { %>
-              value="<%= article.id %>" <% } %> />
-            </label>
-          </div>
+        <!-- Footer -->
+        <%- include('../components/footer.ejs') %>
 
-          <label for="title">Add a Title</label>
-          <label class="input input-bordered flex items-center gap-2">
-            <input type="text" class="grow" name="title"
-            autocomplete="off"
-            placeholder="title" <% if (typeof(article) != 'undefined') { %>
-            value="<%= article.title %>" <% } %> />
-          </label>
-          <label for="content">Content</label>
-          <div class="flex">
-            <textarea class="textarea textarea-bordered grow text-base h-96" 
-              name="content" 
-              autocomplete="off" 
-              placeholder="content" 
-              rows="5"><% if (typeof(article) != 'undefined') { %><%= article.content %><% } %></textarea>
-          </div>
-
-          <div class="flex justify-between gap-x-2">
-            <div class="flex gap-2 items-center">
-              <p>By <%= typeof(author) != 'undefined' ? author.name : "Author" %>
-              <% if(typeof(article) != 'undefined' && article.published_at) {
-                var date = new Date(article.published_at);
-                var options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-                var formattedDate = date.toLocaleString('en-US', options); 
-              %>
-              published on <%= typeof(article) != 'undefined' ? formattedDate : "published date" %>
-              <% } %>
-              </p>
-              <!-- <p class="">By <%= typeof(author) != 'undefined' ? author.name : "Author" %>, published on <%= typeof(article) != 'undefined' ? formattedDate : "published date" %></p> -->
-            </div>
-            <div class="flex gap-2 items-center">
-              <% if (typeof(article) != 'undefined') { %>
-                <% if(article.published_at) { %>
-                  <div class="badge badge-lg font-normal">Views: <%= typeof(article) != 'undefined' ? article.number_of_reads : "-1" %></div>
-                  <div class="badge badge-lg font-normal">Likes: <%= typeof(article) != 'undefined' ? article.number_of_likes : "-1" %></div>
-                <% } %>
-                <a href="/author">
-                  <button type="button" class="btn btn-md bg-error sm:btn-sm md:btn-md">
-                      Discard Changes
-                  </button>
-                </a>
-                <button class="btn btn-md bg-error sm:btn-sm md:btn-md"
-                  type="submit" 
-                  name="action" 
-                  value="delete">
-                  Delete
-                </button>
-                
-                <button class="btn btn-md bg-secondary sm:btn-sm md:btn-md"
-                  type="submit" 
-                  name="action" 
-                  value="publish">
-                  Publish
-                </button>
-              <% } %>
-
-              <button class="btn btn-md bg-primary sm:btn-sm md:btn-md"
-                type="submit" 
-                name="action" 
-                value="<%= typeof(article) == 'undefined' ? 'create' : 'update' %>">
-                <%= typeof(article) == 'undefined' ? 'Create' : 'Update' %>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- footer -->
-    <%- include('../components/footer.ejs') %>
-
-    
-
-    <!-- notifications -->
-    <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs',{message: message}) %>
-    <% } %>
-  </body>
+        <!-- Notifications -->
+        <% if(typeof(message) != 'undefined') { %> 
+            <%- include('../components/notification.ejs',{message: message}) %>
+        <% } %>
+    </body>
 </html>

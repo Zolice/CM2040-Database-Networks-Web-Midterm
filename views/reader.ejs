@@ -13,9 +13,10 @@
         <!-- Hero -->
         <div class="hero h-fit bg-base-100 py-16">
             <div class="hero-content flex-col lg:flex-row">
-                <!-- <img
-                    src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-                    class="max-w-sm rounded-lg shadow-2xl" /> -->
+                <!-- 
+                <img src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
+                class="max-w-sm rounded-lg shadow-2xl" /> 
+                -->
                 <div>
                     <h1 class="text-5xl font-bold">Reader's Homepage</h1>
                     <p class="pt-6">This is the Reader's Home Page Hello.</p>
@@ -34,17 +35,19 @@
                         <% } else { %>
                             <% articles.forEach((article) => { %>
                                 <%- include('../components/article.ejs', {article: article}) %>
-                        <% })} %>
+                            <% }) %>
+                        <% } %>
                     <% } %>
                 </div>
             </div>
         </div>
 
-        <!-- footer -->
+        <!-- Footer -->
         <%- include('../components/footer.ejs') %>
 
-        <!-- notifications -->
-        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs', {message: message}) %>
+        <!-- Notifications -->
+        <% if(typeof(message) != 'undefined') { %> 
+            <%- include('../components/notification.ejs', {message: message}) %>
         <% } %>
     </body>
 </html>

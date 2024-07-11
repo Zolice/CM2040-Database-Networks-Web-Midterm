@@ -12,9 +12,9 @@
             <%- include('../components/header.ejs') %>
         <% } else { %>
             <%- include('../components/header.ejs', {author: author}) %>
-        <% } %> 
+        <% } %>
 
-        <!-- body -->
+        <!-- Body Section -->
         <div class="hero bg-base-200 min-h-screen">
             <div class="hero-content flex-col lg:flex-row-reverse gap-x-8 container px-4">
                 <div class="text-center lg:text-left">
@@ -38,11 +38,13 @@
                 </div>
             </div>
         </div>
-        <!-- footer -->
+
+        <!-- Footer -->
         <%- include('../components/footer.ejs') %>
 
-        <!-- notifications -->
-        <% if(typeof(message) != 'undefined') { %> <%- include('../components/notification.ejs',{message: message}) %>
+        <!-- Notifications -->
+        <% if(typeof(message) != 'undefined') { %> 
+            <%- include('../components/notification.ejs', {message: message}) %>
         <% } %>
     </body>
 </html>
