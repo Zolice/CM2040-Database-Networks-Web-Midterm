@@ -47,7 +47,7 @@ VALUES (
     'Author',
     'author@mail.com',
     'Author''s Blog',
-    '$2b$10$Y6ciYYf/UOaD5CUe.1NdbOEQadxddjablj0CcfNoqu5H00BlOXgJy' -- default password: password
+    ' ' -- Password appended during server startup
 );
 
 -- Insert published article 1

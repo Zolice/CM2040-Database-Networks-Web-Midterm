@@ -38,6 +38,23 @@ global.db = new sqlite3.Database("./database.db", function (err) {
     } else {
         console.log("Database connected");
         global.db.run("PRAGMA foreign_keys=ON"); // tell SQLite to pay attention to foreign key constraints
+
+        // encrypt password
+        bcrypt.hash(process.env.PASSWORD, 10, function (err, hash) {
+            if (err) {
+                console.error(err);
+            }
+            else {
+                // Store hash in your password DB.
+                global.db.run(`UPDATE author SET password = ? WHERE id = 1;`, hash, (err) => {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        console.log("Password updated.");
+                    }
+                });
+            }
+        });
     }
 });
 

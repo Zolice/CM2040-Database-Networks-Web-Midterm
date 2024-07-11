@@ -2414,6 +2414,10 @@ details.collapse summary::-webkit-details-marker {
   display: table;
 }
 
+.h-96 {
+  height: 24rem;
+}
+
 .h-\[256px\] {
   height: 256px;
 }
@@ -2421,18 +2425,6 @@ details.collapse summary::-webkit-details-marker {
 .h-fit {
   height: -moz-fit-content;
   height: fit-content;
-}
-
-.h-screen {
-  height: 100vh;
-}
-
-.h-full {
-  height: 100%;
-}
-
-.h-96 {
-  height: 24rem;
 }
 
 .min-h-screen {
@@ -2536,12 +2528,6 @@ details.collapse summary::-webkit-details-marker {
 
 .overflow-x-auto {
   overflow-x: auto;
-}
-
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .rounded-lg {
