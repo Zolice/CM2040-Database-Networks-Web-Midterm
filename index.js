@@ -123,10 +123,6 @@ app.post("/auth", (req, res, next) => {
     });
 });
 
-app.get("/error", (req, res, next) => {
-    res.render("error.ejs", { error: req.query.error });
-})
-
 // Error handling middleware
 app.use((err, req, res, next) => {
     // Log the error stack for debugging
