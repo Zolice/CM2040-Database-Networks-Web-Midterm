@@ -310,7 +310,6 @@ router.post(
         // get validation results
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log("error", errors);
             return res.render("settings.ejs", { updateErrors: errors.array() });
         }
 
