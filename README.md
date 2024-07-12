@@ -1,62 +1,132 @@
-##  Coursework Template ##
-### CM2040 Database Networks and the Web ###
+<div id="top" align="center">
+  <a href="https://github.com/Zolice/CM2040-Database-Networks-Web-Midterm">
+    <img src="https://avatars.githubusercontent.com/u/17869608?s=240&v=4" alt="Logo" height="240">
+  </a>
 
-#### Installation requirements ####
+  <h3 align="center">CM2040-Database-Networks-Web-Midterm</h3>
 
-* NodeJS 
-    - follow the install instructions at https://nodejs.org/en/
-    - we recommend using the latest LTS version
-* Sqlite3 
-    - follow the instructions at https://www.tutorialspoint.com/sqlite/sqlite_installation.htm 
-    - Note that the latest versions of the Mac OS and Linux come with SQLite pre-installed
+  <p align="center">
+    Project assigned by SIM GE - UOL for the purpose of CM2040 Databases, Networks and The Web
+    <br />
+    <a href="https://github.com/Zolice/CM2040-Database-Networks-Web-Midterm">View Demo</a>
+    ·
+    <a href="https://github.com/Zolice/CM2040-Database-Networks-Web-Midterm/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Zolice/CM2040-Database-Networks-Web-Midterm/issues">Request Feature</a>
+  </p>
+</div>
 
-#### Using this template ####
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#setting-up">Setting Up</a></li>
+        <ul>
+            <li><a href="#run-tailwindcss-to-watch">Run TailwindCSS to watch</a></li>
+            <li><a href="#build-the-database">Build the database</a></li>
+            <li><a href="#run-the-server">Run the server</a></li>
+        </ul>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-This template sets you off in the right direction for your coursework. To get started:
+# About The Project
+Project assigned by SIM GE - UOL for the purpose of CM2040 Databases, Networks and The Web
 
-* Run ```npm install``` from the project directory to install all the node packages.
+## Built With
+![NodeJS](https://img.shields.io/badge/NodeJS-339933?style=for-the-badge&logo=node.js&logoColor=FFFFFF)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=FFFFFF)
+![DaisyUI](https://img.shields.io/badge/DaisyUI-FF00FF?style=for-the-badge&logo=tailwind-css&logoColor=FFFFFF)
 
-* Run ```npm run build-db``` to create the database on Mac or Linux 
-or run ```npm run build-db-win``` to create the database on Windows
+The following libraries and their respective prerequisites are used in this project:
+- [TailwindCSS](https://tailwindcss.com/)
+- [DaisyUI](https://daisyui.com/)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Dotenv](https://www.npmjs.com/package/dotenv)
+- [Express](https://expressjs.com/)
+- [Express-Session](https://www.npmjs.com/package/express-session)
+- [Express-Validator](https://express-validator.github.io/docs/)
+- [sqlite3](https://www.npmjs.com/package/sqlite3)
 
-* Run ```npm run start``` to start serving the web app (Access via http://localhost:3000)
+<p align="right"><a href="#top">back to top</a></p>
 
-Test the app by browsing to the following routes:
+# Getting Started
+## Prerequisites
 
-* http://localhost:3000
-* http://localhost:3000/users/list-users
-* http://localhost:3000/users/add-user
+* Install all node packages using the following command
+  ```
+  npm install
+  ```
 
-You can also run: 
-```npm run clean-db``` to delete the database on Mac or Linux before rebuilding it for a fresh start
-```npm run clean-db-win``` to delete the database on Windows before rebuilding it for a fresh start
+## Setting Up
 
-Please also read the document ```Working with this Template.pdf``` for further guidance.
+### Run TailwindCSS to watch
+_This is mainly used for development. Skip to [Build the database](#build-the-database) if you're only running the project._
 
-##### Creating database tables #####
+* Run the following command to watch TailwindCSS
+   ```
+   npm run build-css
+   ```
 
-* All database tables should created by modifying the db_schema.sql 
-* This allows us to review and recreate your database simply by running ```npm run build-db```
-* Do NOT create or alter database tables through other means
+### Build the database
+_This is a required step._
 
-
-#### Preparing for submission ####
-
-Make a copy of your project folder.
-In your copy, delete the following files and folders:
-* node_modules
-* .git (the hidden folder with your git repository)
-* database.db (your database)
-
-Make sure that your ``package.json`` file includes all of the dependencies for your project. NB. you need to use the ```--save``` tag each time you use npm to install a dependency
-
-Edit this README.md to explain any specific instructions for setting up or using your application that you want to bring to our attention:
-
-* remove the existing contents that we have provided
-* include any settings that should be adjusted in configuration files
-* include a list of the additional libraries you are using
-* anything else we need to know in order to successfully run your app
+* For Linux users, run the following command to build the database
+   ```
+   npm run build-db
+   ```
+* For Windows users, run the following command to build the database
+   ```
+    npm run build-db-win
+    ```
 
 
-NB. we will ONLY run ```npm install```, ```npm run build-db```, and ```npm run start``` . We will NOT install additional packages to run your code and will NOT run additional build scripts. Be careful with any additional node dependencies that you use.
+### Run the server
+_This is a required step._
 
+* Run the following command to start the server
+   ```
+   npm run start
+   ```
+
+<p align="right"><a href="#top">back to top</a></p>
+
+# Usage
+- Change the port number in the `.env` file if needed. The default port is `3000`.
+- Change the password in the `.env` file if needed. The default password is `password`.
+
+_Refer here for more information_
+
+<p align="right"><a href="#top">back to top</a></p>
+
+# License
+Distributed under the GPL License. See <a href="https://github.com/Zolice/CM2040-Database-Networks-Web-Midterm/LICENSE">License</a> for more information.
+
+<p align="right"><a href="#top">back to top</a></p>
+
+# Acknowledgments/References
+* [TailwindCSS](https://tailwindcss.com/)
+* [DaisyUI](https://daisyui.com/)
+* [Bcrypt](https://www.npmjs.com/package/bcrypt)
+* [Dotenv](https://www.npmjs.com/package/dotenv)
+* [Express](https://expressjs.com/)
+* [Express-Session](https://www.npmjs.com/package/express-session)
+* [Express-Validator](https://express-validator.github.io/docs/)
+* [sqlite3](https://www.npmjs.com/package/sqlite3)
+
+<p align="right"><a href="#top">back to top</a></p>
