@@ -8,10 +8,10 @@ require("dotenv").config();
 
 // Set up express, bodyparser and EJS
 const express = require("express");
-const session = require("express-session");
 const app = express();
-const port = process.env.PORT ? process.env.PORT : 3000;
+const session = require("express-session");
 const bcrypt = require("bcrypt");
+const port = process.env.PORT ? process.env.PORT : 3000;
 var bodyParser = require("body-parser");
 
 app.use(
@@ -44,6 +44,9 @@ global.db = new sqlite3.Database("./database.db", function (err) {
                 console.error(err);
             } else {
                 // Store hash in your password DB.
+                // Purpose: Update author password
+                // Input: Hashed password
+                // Output: None
                 global.db.run(`UPDATE author SET password = ? WHERE id = 1;`, hash, (err) => {
                     if (err) {
                         console.error(err);
@@ -57,6 +60,9 @@ global.db = new sqlite3.Database("./database.db", function (err) {
 });
 
 // Handle requests to the home page
+// Purpose: Render the home page with author details
+// Input: None
+// Output: Rendered index.ejs with author details
 app.get("/", (req, res, next) => {
     // get author details
     global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
@@ -89,6 +95,9 @@ app.use(
 );
 
 // Handle requests to author login page
+// Purpose: Render the login page with author details
+// Input: None
+// Output: Rendered author-login.ejs with author details and message
 app.get("/login", (req, res, next) => {
     // get author details
     global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
@@ -102,8 +111,14 @@ app.get("/login", (req, res, next) => {
     });
 });
 
+// Purpose: Authenticate the author
+// Input: Password from request body
+// Output: Redirect to author page if authenticated, otherwise redirect to login with message
 app.post("/auth", (req, res, next) => {
     // get password from db
+    // Purpose: Authenticate the author
+    // Input: Author id
+    // Output: Password from db
     global.db.get(`SELECT password FROM author WHERE id = '1';`, (err, row) => {
         if (err) {
             console.error(err);
@@ -124,6 +139,9 @@ app.post("/auth", (req, res, next) => {
 });
 
 // Error handling middleware
+// Purpose: Handle errors and render error page
+// Input: Error object
+// Output: Rendered error.ejs with error message
 app.use((err, req, res, next) => {
     // Log the error stack for debugging
     console.error(err.stack);

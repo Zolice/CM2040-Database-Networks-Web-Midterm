@@ -2,8 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 
+// Purpose: Render the reader page with author details and list of published articles
+// Input: None
+// Output: Rendered reader.ejs with author details and list of published articles
 router.get("/", (req, res, next) => {
     // get author details
+    // Purpose: Get author details
+    // Input: Author ID
+    // Output: Author name and blog name
     const getAuthorDetails = new Promise((resolve, reject) => {
         global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
             if (err) {
@@ -15,6 +21,9 @@ router.get("/", (req, res, next) => {
     });
 
     // get list of published articles
+    // Purpose: Get list of published articles
+    // Input: Author ID
+    // Output: List of published articles
     const getPublishedArticles = new Promise((resolve, reject) => {
         global.db.all(`SELECT * FROM articles WHERE state = 'published' AND author_id = '1';`, (err, rows) => {
             if (err) {
@@ -40,6 +49,9 @@ router.get("/", (req, res, next) => {
         });
 });
 
+// Purpose: Render the article page with article details and comments
+// Input: Article ID
+// Output: Rendered article.ejs with article details and comments
 router.get("/article", (req, res, next) => {
     // get article id
     if (!req.query.id) {
@@ -47,6 +59,9 @@ router.get("/article", (req, res, next) => {
     }
 
     // get article details
+    // Purpose: Get article details
+    // Input: Article ID
+    // Output: Article details
     const getArticleDetails = new Promise((resolve, reject) => {
         global.db.get(`SELECT * FROM articles WHERE id =?;`, [req.query.id], (err, row) => {
             if (err) {
@@ -59,7 +74,10 @@ router.get("/article", (req, res, next) => {
         });
     });
 
-    // get author details
+    // get author details    
+    // Purpose: Get author details
+    // Input: Author ID
+    // Output: Author name and blog name
     const getAuthorDetails = new Promise((resolve, reject) => {
         global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
             if (err) {
@@ -71,6 +89,9 @@ router.get("/article", (req, res, next) => {
     });
 
     // get comments
+    // Purpose: Get comments for an article
+    // Input: Article ID
+    // Output: List of comments
     const getComments = new Promise((resolve, reject) => {
         global.db.all(`SELECT * FROM ReaderComments WHERE article_id =?;`, [req.query.id], (err, rows) => {
             if (err) {
@@ -101,6 +122,9 @@ router.get("/article", (req, res, next) => {
         });
 });
 
+// Purpose: Add a comment to an article
+// Input: Article ID, Comment, Name
+// Output: Redirect to article page with message
 router.get("/article/comment", [
     check('comment', "Please leave a comment").not().isEmpty(),
     check('id', "Please enter a valid article id").isInt().not().isEmpty()
@@ -116,6 +140,9 @@ router.get("/article/comment", [
     }
 
     // add comment
+    // Purpose: Add a comment to an article
+    // Input: Article ID, Comment, Name
+    // Output: None
     global.db.run(`INSERT INTO ReaderComments (article_id, commenter_name, comment) VALUES (?, ?, ?);`, [req.query.id, req.query.name, req.query.comment], (err) => {
         if (err) {
             next(err)
@@ -127,6 +154,9 @@ router.get("/article/comment", [
     });
 })
 
+// Purpose: Add a like to an article
+// Input: Article ID
+// Output: Redirect to article page with message
 router.get("/article/like", [
     check('id', "Please enter a valid article id").isInt().not().isEmpty()
 ], (req, res, next) => {

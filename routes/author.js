@@ -4,8 +4,14 @@ const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 
 // Web Routes
+// Purpose: Author Homepage
+// Input: None
+// Output: Rendered author.ejs with author details, published articles and drafts
 router.get("/", (req, res, next) => {
     // get author details
+    // Purpose: Get author details
+    // Input: Author ID
+    // Output: Author name and blog name
     const getAuthorDetails = new Promise((resolve, reject) => {
         global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
             if (err) {
@@ -17,6 +23,9 @@ router.get("/", (req, res, next) => {
     });
 
     // get list of published articles
+    // Purpose: Get published articles
+    // Input: State and Author ID
+    // Output: List of published articles
     const getPublishedArticles = new Promise((resolve, reject) => {
         global.db.all(`SELECT * FROM articles WHERE state = 'published' AND author_id = '1';`, (err, rows) => {
             if (err) {
@@ -28,6 +37,9 @@ router.get("/", (req, res, next) => {
     });
 
     // then get list of drafts
+    // Purpose: Get drafts
+    // Input: State and Author ID
+    // Output: List of drafts
     const getDrafts = new Promise((resolve, reject) => {
         global.db.all(`SELECT * FROM articles WHERE state = 'draft';`, (err, rows) => {
             if (err) {
@@ -55,8 +67,14 @@ router.get("/", (req, res, next) => {
         });
 });
 
+// Purpose: Author Draft Page
+// Input: Article ID @optional
+// Output: Rendered draft.ejs with author details and article details
 router.get("/draft", (req, res, next) => {
     // get author details
+    // Purpose: Get author details
+    // Input: Author ID
+    // Output: Author name and blog name
     const getAuthorDetails = new Promise((resolve, reject) => {
         global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
             if (err) {
@@ -69,6 +87,9 @@ router.get("/draft", (req, res, next) => {
 
     if (req.query.id) {
         // get the article
+        // Purpose: Get article details
+        // Input: Article ID
+        // Output: Article details
         const query = `SELECT * FROM articles WHERE id = ?`;
         const query_parameters = [req.query.id];
         global.db.get(query, query_parameters, (err, row) => {
@@ -93,6 +114,9 @@ router.get("/draft", (req, res, next) => {
 });
 
 // Create Draft
+// Purpose: All features within Draft
+// Input: Article ID
+// Output: Redirect to draft page
 router.post("/draft",
     [
         // validate action
@@ -103,6 +127,9 @@ router.post("/draft",
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
             // get author details
+            // Purpose: Get author details
+            // Input: Author ID
+            // Output: Author name and blog name
             global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
                 if (err) {
                     next(err)
@@ -153,6 +180,9 @@ router.post("/draft",
                 return res.render("draft.ejs", { errors: errors.array() });
         }
         if (errors.length > 0) {
+            // Purpose: Get author details
+            // Input: Author ID
+            // Output: Author name and blog name
             return global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
                 if (err) {
                     next(err)
@@ -166,10 +196,16 @@ router.post("/draft",
 
         switch (req.body.action) {
             case "create":
+                // Purpose: Insert a new article
+                // Input: Author ID, Title, Content
+                // Output: Inserted article ID
                 query = `INSERT INTO Articles (author_id, title, content, state) VALUES (?, ?, ?, 'draft');`;
                 query_parameters = [1, req.body.title, req.body.content];
                 break;
             case "update":
+                // Purpose: Update an article
+                // Input: Title, Content, Article ID
+                // Output: None
                 query = `UPDATE articles SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?;`;
                 query_parameters = [req.body.title, req.body.content, req.body.articleId];
                 break;
@@ -177,6 +213,9 @@ router.post("/draft",
                 // special case, run the queries etc here
                 break;
             case "publish":
+                // Purpose: Publish an article
+                // Input: Article ID
+                // Output: None
                 query = `UPDATE articles SET state = 'published', published_at = CURRENT_TIMESTAMP WHERE id = ?;`;
                 query_parameters = [req.body.articleId];
                 break;
@@ -205,6 +244,9 @@ router.post("/draft",
         }
         else {
             // delete comments first
+            // Purpose: Delete comments
+            // Input: Article ID
+            // Output: None
             const deleteComments = new Promise((resolve, reject) => {
                 global.db.run(`DELETE FROM ReaderComments WHERE article_id = ?;`, [req.body.articleId], (err) => {
                     if (err) {
@@ -217,6 +259,9 @@ router.post("/draft",
 
             Promise.all([deleteComments])
                 .then(() => {
+                    // Purpose: Delete an article
+                    // Input: Article ID
+                    // Output: None
                     global.db.run(`DELETE FROM articles WHERE id = ?;`, [req.body.articleId], (err) => {
                         if (err) {
                             next(err)
@@ -231,8 +276,14 @@ router.post("/draft",
         }
     });
 
+// Purpose: Author Settings Page
+// Input: None
+// Output: Rendered settings.ejs with author details
 router.get("/settings", (req, res, next) => {
     // get author details
+    // Purpose: Get author details
+    // Input: Author ID
+    // Output: Author name and blog name
     global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
         if (err) {
             console.error(err);
@@ -246,6 +297,9 @@ router.get("/settings", (req, res, next) => {
     // res.render("settings.ejs");
 });
 
+// Purpose: Update Author Settings
+// Input: Author Name, Blog Title
+// Output: Redirect to author page
 router.post(
     "/settings/update",
     [
@@ -261,6 +315,9 @@ router.post(
         }
 
         // update author details
+        // Purpose: Update author details
+        // Input: Author Name, Blog Title
+        // Output: None
         const query = `UPDATE author SET name = ?, blog_name = ? WHERE id = 1;`;
         const query_parameters = [req.body.authorName, req.body.blogTitle];
         global.db.run(query, query_parameters, function (err) {
@@ -272,6 +329,9 @@ router.post(
     }
 );
 
+// Purpose: Update Author Password
+// Input: Old Password, New Password, Confirm Password
+// Output: Redirect to author page
 router.post('/settings/password', [
     check('oldPassword', 'Old Password cannot be empty').notEmpty(),
     check('newPassword', 'New Password cannot be empty').notEmpty(),
@@ -284,6 +344,9 @@ router.post('/settings/password', [
 
     if (!errors.isEmpty()) {
         // get author details
+        // Purpose: Get author details
+        // Input: Author ID
+        // Output: Author name and blog name
         return global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
             if (err) {
                 next(err)
@@ -296,6 +359,9 @@ router.post('/settings/password', [
 
     // update author details
     // get password from db
+    // Purpose: Get author password
+    // Input: Author ID
+    // Output: Author password
     const query = `SELECT password FROM author WHERE id = 1;`;
     global.db.get(query, (err, row) => {
         if (err) {
@@ -313,6 +379,9 @@ router.post('/settings/password', [
                         next(err)
                     }
                     // update the password
+                    // Purpose: Update author password
+                    // Input: Password, Author ID
+                    // Output: None
                     const query = `UPDATE author SET password = ? WHERE id = 1;`;
                     const query_parameters = [hash];
                     return global.db.run(query, query_parameters, function (err) {
@@ -325,6 +394,9 @@ router.post('/settings/password', [
                 })
             } else {
                 // get author details
+                // Purpose: Get author details
+                // Input: Author ID
+                // Output: Author name and blog name
                 return global.db.get(`SELECT name, blog_name FROM author WHERE id = 1;`, (err, row) => {
                     if (err) {
                         next(err)
@@ -338,10 +410,16 @@ router.post('/settings/password', [
     });
 })
 
+// Purpose: Delete Draft
+// Input: Article ID
+// Output: Redirect to author page
 router.get('/delete', (req, res, next) => {
     //  get article id
     if (req.query.id) {
         // delete comments first
+        // Purpose: Delete comments
+        // Input: Article ID
+        // Output: None
         const deleteComments = new Promise((resolve, reject) => {
             global.db.run(`DELETE FROM ReaderComments WHERE article_id = ?;`, [req.query.id], (err) => {
                 if (err) {
@@ -374,12 +452,18 @@ router.get('/delete', (req, res, next) => {
     }
 })
 
+// Purpose: Publish Draft
+// Input: Article ID
+// Output: Redirect to author page
 router.get(`/publish`, (req, res, next) => {
     //  get article id
     if (req.query.id) {
         const query = `UPDATE articles SET state = 'published', published_at = CURRENT_TIMESTAMP WHERE id =?;`;
         const query_parameters = [req.query.id];
         // update the state
+        // Purpose: Publish an article
+        // Input: Article ID
+        // Output: None
         global.db.run(query, query_parameters, function (err) {
             if (err) {
                 next(err)
