@@ -105,7 +105,6 @@ router.get("/article", (req, res, next) => {
     // render article page
     Promise.all([getAuthorDetails, getArticleDetails, getComments])
         .then(([getAuthorDetails, getArticleDetails, getComments]) => {
-            console.log(getArticleDetails)
             // if article is not published
             if (getArticleDetails.state !== "published") {
                 return res.redirect(`/reader?message=This article is not published`);
